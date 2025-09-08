@@ -1,3 +1,10 @@
+# environment variables
+.env
+**/.env
+
+# Ignore deprecated source code
+**/*deprecated*/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
