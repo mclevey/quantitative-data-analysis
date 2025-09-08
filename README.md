@@ -5,23 +5,7 @@ Professor and Head of Sociology<br>
 Memorial University, St. John's, NL, Canada<br>
 mclevey@mun.ca | johnmclevey.com<br>
 
-> This repository contains **course materials** for Sociology/Criminology 3040: Quantitative Data Analysis, including a **draft manuscript** for the required course readings (McLevey, *Quantitative Social Science: Core Concepts, Skills, and Stories*), companion **Python package** (`clark`), syllabus, lab notebooks, quizzes and assignments, and automation scripts. The key directories and files are:
-
-```plaintext
-.
-├── book
-├── clark
-│   ├── clark
-├── course
-│   ├── assignments
-│   ├── lectures-and-labs
-│   ├── course-notes
-│   └── syllabus
-├── pixi.toml
-├── README.md
-└── workflow
-    └── publish-to-pypi.md
-```
+> This repository contains **course materials** for Sociology/Criminology 3040: Quantitative Data Analysis, including a **draft manuscript** for the required course readings (McLevey, *Quantitative Social Science: Core Concepts, Skills, and Stories*), companion **Python package** (`clark`), syllabus, lab notebooks, quizzes and assignments, automation scripts, and so on...
 
 ## 1. Book Manuscript
 
