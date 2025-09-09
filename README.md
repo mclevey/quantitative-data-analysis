@@ -5,7 +5,9 @@ Professor and Head of Sociology<br>
 Memorial University, St. John's, NL, Canada<br>
 mclevey@mun.ca | johnmclevey.com<br>
 
-> This repository contains **course materials** for Sociology/Criminology 3040: Quantitative Data Analysis, including a **draft manuscript** for the required course readings (McLevey, *Quantitative Social Science: Core Concepts, Skills, and Stories*), companion **Python package** (`clark`), syllabus, lab notebooks, quizzes and assignments, automation scripts, and so on...
+This repository contains **course materials** for Sociology/Criminology 3040: Quantitative Data Analysis (`sc3040/`), including a **draft manuscript** for the required course readings (`book/`) and a companion **Python package** (`clark/`).
+
+> Sociology/Criminology 3040, is an introduction to quantitative data analysis for undergraduate students in the social sciences. Topics include data processing, description, and visualization; exploratory data analysis; inference and modelling; measurement and latent variables; association, regression; networks and multilevel models; quantitative text analysis.
 
 ## 1. Book Manuscript
 
@@ -20,17 +22,12 @@ mclevey@mun.ca | johnmclevey.com<br>
 }
 ```
 
-## 2. Course Materials for SOCI/CRIM 3040, Quantitative Data Analysis
+## 2. SOCI/CRIM 3040 Course Materials
 
-> Sociology/Criminology 3040, Quantitative Data Analysis, is an introduction to quantitative data analysis for undergraduate students in the social sciences. Topics include data processing, description, and visualization; exploratory data analysis; inference and modelling; measurement and latent variables; association, regression; networks and multilevel models; quantitative text analysis.
-
-### 2.1. Syllabus
-
-### 2.2. Lectures and Labs
-
-### 2.3. Course Notes
-
-### 2.4. Assignments
+- `syllabus`
+- `lectures-and-labs`
+- `course-notes`
+- `assignments`
 
 
 ## 3. Clark (Python Package)
