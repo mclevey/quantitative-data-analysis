@@ -1,0 +1,74 @@
+# Project 1 — Exploring and Describing Data
+
+**Due:** End of Week 4  
+**Weight:** 15% of final grade  
+
+## How this project works
+
+This project is your chance to practice cleaning and describing real data.  
+There are **no tricks** and no “one perfect way” to do it. Sometimes answers are clear-cut; other times it’s about your process and interpretation.  
+
+### How this project is graded (max 100 points)
+
+- Runs without error: 0 or 20 points  
+- Tables: 0 (none), 10 (one), 20 (two or more)  
+- Figures: 0 (none), 10 (one), 20 (two or more)  
+- Reflection: 0 (none), 20 (≥40 words), 40 (≥80 words)  
+
+> Minimum effort = ~60–70%  
+> Full effort = 100%  
+
+> **Bottom line:** Do the work, get the grade.  
+
+```{python}
+# =========================
+# Project 1 Starter Cell
+# =========================
+
+MUNID = "A00XXXXXX"   # <-- Replace with your Memorial Student ID
+
+# Set seed for reproducibility
+import numpy as np
+np.random.seed(abs(hash(MUNID)) % 10_000_000)
+
+print("MUNID:", MUNID, "| Seed set")
+```
+
+## Step 1 — Load your data
+
+```{python}
+import pandas as pd
+
+df = pd.DataFrame({
+    "age": [21, 25, 30, 40, 50, 60],
+    "hours_online": [3, 5, 7, 4, 2, 1]
+})
+df.head()
+```
+
+## Step 2 — Tables (aim for 2+ for full marks)
+
+```{python}
+df.describe()
+```
+
+## Step 3 — Figures (aim for 2+ for full marks)
+
+```{python}
+import matplotlib.pyplot as plt
+plt.hist(df["age"], bins=5)
+plt.xlabel("Age")
+plt.ylabel("Count")
+plt.show()
+```
+
+## Step 4 — Reflection (≥40 words for partial credit, ≥80 for full)
+
+*Reflection goes here.*
+
+## Final Check (self-assessment)
+
+- [ ] Notebook runs without error (20 pts)  
+- [ ] Tables: 0/10/20 (need 2+ for full marks)  
+- [ ] Figures: 0/10/20 (need 2+ for full marks)  
+- [ ] Reflection: 0/20/40 (≥80 words for full marks)  

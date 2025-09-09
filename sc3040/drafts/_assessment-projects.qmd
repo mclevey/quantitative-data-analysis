@@ -1,0 +1,218 @@
+# Course Deliverables and Student Evaluation
+
+You will complete **three mini-projects** across the term (Weeks 4, 8, and 12). Each is worth 15–20% of your final grade. These projects are designed to give you practice with real data, while keeping the grading system simple, fair, and transparent.
+
+## How Projects Work
+
+* Each project is an **open-ended Jupyter/Colab notebook**. You’ll do some analysis, create tables and figures, and write a short reflection.
+* The emphasis is on **learning by doing**. I am not trying to trick you, and there is no “perfect” or “one right way” to answer every question. Sometimes there are clear right/wrong answers; sometimes it’s about showing your thinking and process.
+* If you put in the work, you can and will succeed. Consistent, moderate effort is what matters here.
+
+## How Projects Are Graded
+
+Each project is scored out of **100 points**, divided into four categories:
+
+* **Runs without error (20 pts)**
+
+  * 0 = notebook does not run
+  * 20 = notebook runs top-to-bottom successfully
+
+* **Tables (20 pts)**
+
+  * 0 = no tables
+  * 10 = one table
+  * 20 = two or more tables
+
+* **Figures (20 pts)**
+
+  * 0 = no figures
+  * 10 = one figure
+  * 20 = two or more figures
+
+* **Reflection (40 pts)**
+
+  * 0 = no reflection
+  * 20 = reflection ≥40 words
+  * 40 = reflection ≥80 words **and** (for Projects 2 & 3) contains the word *uncertainty*
+
+## Why This System?
+
+This grading system rewards consistent effort:
+
+* If you **meet the minimum**, you’ll earn solid marks (usually in the 70–80 range).
+* If you **go further** (extra tables/figures, longer reflection, careful interpretation), you’ll earn higher marks (90–100).
+
+There are no hidden tricks. If you engage steadily, you will succeed.
+
+👉 **Do the work, get the grade.**
+
+<!-- 
+## What You Must Include (The Four-Point Contract)
+
+Every project must include these four things:
+
+1. **Runs without error**
+
+   * Your notebook runs top-to-bottom in under 2 minutes.
+   * If it doesn’t run, I can’t grade it.
+
+2. **At least one table**
+
+   * For example: `.describe()`, a groupby summary, or a frequency table.
+   * It should be a clear summary of some aspect of your data.
+
+3. **At least one figure**
+
+   * For example: a histogram, scatterplot, boxplot, or regression line.
+   * Label your axes so it’s clear what the figure shows.
+
+4. **A short reflection (≥40 words)**
+
+   * Write in plain language.
+   * Say what you found interesting, surprising, or important.
+   * For Projects 2 and 3, include the word **“uncertainty”** at least once to show you are thinking about variability and confidence.
+
+Each of these four items is worth **25% of the project grade**. If all are present, you get full marks. If one is missing, you lose that 25%. That’s it — simple, transparent, and fair.
+
+## Why This System?
+
+* I want you to focus on **doing the work**, not guessing what I’m looking for.
+* This grading system rewards **effort and consistency**, not perfection.
+* If you stay engaged and complete the projects as described, you will do well.
+
+Think of it as **“do the work, get the grade.”**
+ -->
+
+## Submitting Your Work
+
+* Work in Google Colab.
+* Put the following at the top of your notebook:
+
+```python
+MUNID = "A00XXXXXX"   # replace with your student ID
+```
+
+* Submit your **`.ipynb` notebook file** to Brightspace.
+* I will run your notebook with an autograder that checks the four contract items.
+
+## Feedback
+
+When your project is graded, you’ll see:
+
+* Your score (0, 25, 50, 75, or 100).
+* A one-line comment if something was missing (e.g., “No figure found.”).
+
+The goal is not to nitpick your analysis but to **encourage steady progress**.
+
+> **Bottom line:** If you engage consistently and meet the contract, you will succeed in this course. 
+> 
+> If you do the **minimum contract** (run + 1 table + 1 figure + short reflection), you’ll land around **60–70%**. If you go a little further (more plots, longer reflection), you’ll hit the **80–90% range**. If you fully meet the expanded criteria (2+ tables/figures, thoughtful reflection with keyword), you’ll get **100%**.
+
+
+# Overview of the Three Projects
+
+## Project 1 — Exploring and Describing Data
+
+**Due:** Week 4 (end of week)
+**Weight:** 15%
+
+### Description
+
+This project is about *getting comfortable with messy data and describing it clearly*. You will choose a dataset provided by me (or a small public dataset you find with approval). Your task is to clean, explore, and describe it using both code and short narrative.
+
+### Required Components (autograded contract)
+
+1. **Runs without error**: notebook executes top-to-bottom in < 2 minutes.
+2. **DataFrame/Table**: at least one clearly presented table summarizing the dataset (e.g., `.describe()`, groupby summary, or frequency table).
+3. **Figure**: at least one meaningful visualization (e.g., histogram, scatterplot, or bar chart).
+4. **Reflection**: a short paragraph (≥40 words) in plain language explaining what you found most interesting or surprising about the data.
+
+### Deliverable
+
+* Submit a single `.ipynb` file via Brightspace.
+* The first cell must include your student number in the variable `MUNID = "A00XXXXXX"`.
+
+> ## Grading Notes
+>
+> **Due:** End of Week 4 — **Weight: 15%**
+> 
+> **Requirements (max points):**
+> 
+> * Notebook runs without error (20)
+> * At least 2 tables (20)
+> * At least 2 figures (20)
+> * Reflection ≥80 words (40)
+> 
+> **Minimum to pass well:** 1 table, 1 figure, reflection ≥40 words.
+
+## Project 2 — Measuring and Comparing
+
+**Due:** Week 8 (end of week)
+**Weight:** 15%
+
+### Description
+
+This project is about *making measurements from data and comparing results*. You will either continue with the dataset from Project 1 or select a new one from the list I provide. Your task is to create at least one new variable or measurement, compare groups, and visualize uncertainty.
+
+### Required Components (autograded contract)
+
+1. **Runs without error**: notebook executes top-to-bottom in < 2 minutes.
+2. **DataFrame/Table**: at least one table comparing two or more groups (e.g., means, medians, counts).
+3. **Figure**: at least one visualization of group differences (e.g., boxplot, bar plot with error bars, density plot).
+4. **Reflection**: a short paragraph (≥40 words) interpreting your comparison, including at least one mention of **uncertainty**.
+
+### Deliverable
+
+* Submit a single `.ipynb` file via Brightspace.
+* First cell must include `MUNID`.
+
+> ## Grading Notes
+>
+> **Due:** End of Week 8 — **Weight: 15%**
+>
+> **Requirements (max points):**
+>
+> * Notebook runs without error (20)
+> * At least 2 tables comparing groups (20)
+> * At least 2 figures comparing groups (20)
+> * Reflection ≥80 words **including the word “uncertainty”** (40)
+>
+> **Minimum to pass well:** 1 group table, 1 figure, reflection ≥40 words.
+
+
+## Project 3 — Modeling and Communicating
+
+**Due:** Week 12 (end of week)
+**Weight:** 20%
+
+### Description
+
+This project is about *fitting a simple model and communicating results clearly*. You will choose one of the modeling techniques we cover in class (e.g., linear regression, logistic regression, Bayesian regression) and apply it to a dataset. The emphasis is on clarity, not complexity.
+
+### Required Components (autograded contract)
+
+1. **Runs without error**: notebook executes top-to-bottom in < 2 minutes.
+2. **DataFrame/Table**: at least one table of model results (e.g., coefficient summary, credible/confidence intervals, or goodness-of-fit metrics).
+3. **Figure**: at least one visualization of model predictions or uncertainty (e.g., regression line with credible intervals, posterior predictive check).
+4. **Reflection**: a short paragraph (≥40 words) interpreting the model in plain language, with at least one mention of **uncertainty** and at least one **substantive conclusion** about the data.
+
+### Deliverable
+
+* Submit a single `.ipynb` file via Brightspace.
+* First cell must include `MUNID`.
+
+
+> ## Grading Notes
+>
+> **Due:** End of Week 12 — **Weight: 20%**
+> 
+> **Requirements (max points):**
+> 
+> * Notebook runs without error (20)
+> * At least 2 tables of model results (20)
+> * At least 2 figures showing predictions or uncertainty (20)
+> * Reflection ≥80 words **including the word “uncertainty”** and one substantive conclusion (40)
+>
+> **Minimum to pass well:** 1 results table, 1 figure, reflection ≥40 words.
+
+

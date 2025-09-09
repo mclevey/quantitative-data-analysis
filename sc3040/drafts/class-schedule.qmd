@@ -1,0 +1,519 @@
+# 12-Week Course Schedule: Quantitative Social Science
+*Core Concepts, Skills, and Stories*
+
+## Course Structure
+- **Format**: 2 sessions per week, 90 minutes each
+- **Philosophy**: Heavy emphasis on hands-on labs with minimal lecturing
+- **Assessment**: Cumulative project building Canadian polling tracker throughout course
+- **Optional Extension**: Weeks 13-14 for advanced modeling content
+
+---
+
+## **WEEK 1: Introduction to Quantitative Research Through Canadian Politics**
+*Chapter 1: From Polls to Predictions - Getting Started*
+
+### Class 1: "Who's Really Winning the Canadian Election?"
+**Core Learning Outcomes:**
+- Understand how conflicting information creates research puzzles requiring systematic analysis
+- Make first web request and examine raw HTML data structure
+- Store information using Python variables and understand basic data types
+- Connect individual polls to broader questions about measuring public opinion
+
+**Learning Progression:** *Establishes the substantive research question that drives the entire course. Students immediately see why they need programming and methodology skills.*
+
+**Class Structure:**
+- 5 min: Conflicting poll headlines - create the puzzle
+- 15 min: Show end result we'll build (polling tracker output)
+- 60 min: Guided coding - first web request, examine HTML, extract basic information
+- 10 min: Reflection on what we accomplished and preview next session
+
+---
+
+### Class 2: "Understanding Why Polls Differ"
+**Core Learning Outcomes:**
+- Extract specific polling information using Python string methods
+- Calculate basic differences between polls using mathematical operations
+- Understand fundamental polling methodology concepts (sample size, margin of error)
+- Recognize the connection between measurement challenges and programming solutions
+
+**Learning Progression:** *Builds programming skills while introducing survey methodology. Sets up need for systematic multi-poll analysis in Chapter 2.*
+
+**Class Structure:**
+- 15 min: Review previous session, address coding questions
+- 20 min: Survey methodology concepts while examining real poll differences
+- 45 min: Guided practice extracting and comparing multiple polls
+- 10 min: Exercises preview and problem-solving strategies
+
+---
+
+## **WEEK 2: Foundations of Programming and Survey Methodology**
+*Chapter 1 continued + Exercise work*
+
+### Class 3: "Functions and Data Validation"
+**Core Learning Outcomes:**
+- Create reusable functions for cleaning and processing poll data
+- Implement data validation checks to identify unrealistic or missing values
+- Understand error handling using try/except for robust data processing
+- Apply programming patterns to real research problems
+
+**Learning Progression:** *Introduces functions as solutions to repeated tasks. Prepares for systematic data processing in Chapter 2.*
+
+**Class Structure:**
+- 15 min: Review and Q&A from Chapter 1 exercises
+- 25 min: Why we need functions - demonstrate code repetition problems
+- 40 min: Build data cleaning functions together, test with messy poll data
+- 10 min: Preview Chapter 2 challenges
+
+---
+
+### Class 4: "Integration and Problem-Solving Practice" 
+**Core Learning Outcomes:**
+- Synthesize Chapter 1 concepts through guided problem-solving
+- Debug common programming errors with instructor and peer support
+- Complete substantial exercises that integrate programming and methodology
+- Prepare for transition to multi-poll systematic analysis
+
+**Learning Progression:** *Consolidates Chapter 1 learning before moving to Chapter 2's data structures and systematic analysis.*
+
+**Class Structure:**
+- 20 min: Peer debugging session - students help each other with exercises
+- 50 min: Work on challenging Chapter 1 exercises with instructor circulation
+- 20 min: Showcase student solutions and discuss different approaches
+
+---
+
+## **WEEK 3: Systematic Multi-Poll Analysis**
+*Chapter 2: Multiple Polls, Multiple Stories*
+
+### Class 5: "Data Structures for Polling Research"
+**Core Learning Outcomes:**
+- Store multiple polls using Python lists and access them systematically
+- Organize complex poll information using dictionaries with key-value pairs
+- Process many polls efficiently using for loops and iteration patterns
+- Understand when and why to use different data structures
+
+**Learning Progression:** *Natural scaling challenge from Chapter 1. Data structures emerge as solutions to handling multiple polls efficiently.*
+
+**Class Structure:**
+- 10 min: Demonstrate Chapter 1 approach with 20 polls - show it doesn't scale
+- 20 min: Introduce lists and dictionaries as solutions
+- 50 min: Guided coding - build poll collection and processing system
+- 10 min: Survey methodology preview - why systematic analysis matters
+
+---
+
+### Class 6: "House Effects and Polling Patterns"
+**Core Learning Outcomes:**
+- Calculate polling averages using different aggregation methods
+- Identify systematic differences between polling organizations (house effects)
+- Recognize temporal patterns in polling data and distinguish trends from noise
+- Apply survey methodology concepts to evaluate poll quality
+
+**Learning Progression:** *Introduces key survey methodology concepts through data analysis. Sets up need for automated systems in Chapter 3.*
+
+**Class Structure:**
+- 15 min: Review data structures concepts, address iteration questions
+- 25 min: House effects theory while examining real pollster differences
+- 40 min: Calculate weighted averages, identify outliers, analyze temporal trends
+- 10 min: Discuss limitations of manual analysis
+
+---
+
+## **WEEK 4: Advanced Polling Analysis and Quality Control**
+*Chapter 2 continued*
+
+### Class 7: "Weighted Averages and Uncertainty"
+**Core Learning Outcomes:**
+- Implement sample-size weighted and recency-weighted polling averages
+- Compare different aggregation strategies and understand their trade-offs
+- Identify outlier polls and assess data quality systematically
+- Quantify uncertainty in polling aggregates using basic statistical principles
+
+**Learning Progression:** *Introduces statistical thinking through practical aggregation challenges. Prepares for uncertainty quantification in later chapters.*
+
+**Class Structure:**
+- 15 min: Simple vs. weighted averages - when and why they differ
+- 30 min: Implement different weighting schemes together
+- 35 min: Data quality assessment and outlier detection
+- 10 min: Preview automation challenges
+
+---
+
+### Class 8: "Temporal Analysis and Trend Detection"
+**Core Learning Outcomes:**
+- Organize polls chronologically and analyze temporal patterns
+- Calculate changes in party support over time
+- Distinguish meaningful trends from random polling variation
+- Apply data validation methods to ensure analysis quality
+
+**Learning Progression:** *Consolidates Chapter 2 learning. Creates clear motivation for automated, ongoing analysis in Chapter 3.*
+
+**Class Structure:**
+- 15 min: Chapter 2 exercise review and debugging
+- 30 min: Time series analysis of Canadian polling data
+- 35 min: Student work on Chapter 2 exercises with instructor support
+- 10 min: Transition to automation challenges
+
+---
+
+## **WEEK 5: Building Automated Research Systems**
+*Chapter 3: Building Election Forecasts*
+
+### Class 9: "Object-Oriented Programming for Research"
+**Core Learning Outcomes:**
+- Understand classes and objects as tools for organizing complex research operations
+- Create Poll objects that bundle data with validation and calculation methods
+- Build PollTracker systems that manage collections of polls systematically
+- Apply object-oriented thinking to research workflow design
+
+**Learning Progression:** *Classes emerge as solutions to organizing complex operations. Introduces systematic approach to research automation.*
+
+**Class Structure:**
+- 15 min: Why we need better organization - demonstrate Chapter 2 code complexity
+- 25 min: Classes and objects concepts with polling examples
+- 40 min: Build Poll and PollTracker classes together
+- 10 min: Preview error handling and robustness challenges
+
+---
+
+### Class 10: "Robust Data Collection and Error Handling"
+**Core Learning Outcomes:**
+- Implement comprehensive error handling for web scraping and data processing
+- Build retry mechanisms and systematic quality control processes
+- Create logging and health monitoring for automated data collection
+- Understand the difference between robust and fragile research systems
+
+**Learning Progression:** *Addresses real-world challenges in automated research. Introduces systematic approach to handling uncertainty and errors.*
+
+**Class Structure:**
+- 20 min: Demonstrate what happens when data collection fails
+- 25 min: Error handling strategies and implementation
+- 35 min: Build robust polling collector with systematic error handling
+- 10 min: Data persistence preview
+
+---
+
+## **WEEK 6: From Data Collection to Forecasting**
+*Chapter 3 continued*
+
+### Class 11: "Data Persistence and Longitudinal Research"
+**Core Learning Outcomes:**
+- Save and load polling data using JSON format for ongoing research
+- Organize data files systematically for longitudinal analysis
+- Build research databases that accumulate over time
+- Understand reproducibility principles for quantitative research
+
+**Learning Progression:** *Introduces data management for ongoing research. Prepares transition from data collection to analysis and forecasting.*
+
+**Class Structure:**
+- 15 min: Why we need to save our work - longitudinal research principles
+- 25 min: File I/O and data organization strategies
+- 40 min: Build persistent polling database system
+- 10 min: Forecasting preview - from polling to prediction
+
+---
+
+### Class 12: "Election Forecasting and Uncertainty Quantification"
+**Core Learning Outcomes:**
+- Distinguish between polling (measuring current opinion) and forecasting (predicting outcomes)
+- Generate election forecasts with appropriate uncertainty quantification
+- Understand forecast validation principles and accuracy assessment
+- Create complete automated polling and forecasting system
+
+**Learning Progression:** *Culminates foundational programming sequence. Demonstrates complete research pipeline from question to validated predictions.*
+
+**Class Structure:**
+- 20 min: Polling vs. forecasting concepts and uncertainty principles
+- 30 min: Build simple forecasting system with uncertainty estimates
+- 30 min: Complete system integration and testing
+- 10 min: Transition to systematic data analysis with pandas
+
+---
+
+## **WEEK 7: Systematic Data Analysis with Pandas**
+*Chapter 4: Data Analysis with Pandas + V-Dem Integration*
+
+### Class 13: "From Polling Data to Democratic Analysis"
+**Core Learning Outcomes:**
+- Load and manipulate structured data using pandas DataFrames and Series
+- Integrate Canadian polling data with V-Dem democracy indicators
+- Perform basic data cleaning and transformation operations
+- Understand the relationship between polling and broader democratic trends
+
+**Learning Progression:** *Transitions from custom data structures to professional data analysis tools. Expands scope from polling to democratic analysis.*
+
+**Class Structure:**
+- 15 min: Limitations of custom data structures - why we need pandas
+- 25 min: Introduction to DataFrames and Series with polling data
+- 40 min: Load V-Dem data and integrate with Canadian polling trends
+- 10 min: Preview exploratory data analysis
+
+---
+
+### Class 14: "Exploratory Data Analysis of Democratic Attitudes"
+**Core Learning Outcomes:**
+- Calculate descriptive statistics for complex political datasets
+- Create informative visualizations of democratic trends over time
+- Identify patterns in Canadian democratic satisfaction and electoral behavior
+- Apply data validation techniques to large-scale political datasets
+
+**Learning Progression:** *Introduces systematic data analysis methods. Prepares for measurement theory and validation in upcoming chapters.*
+
+**Class Structure:**
+- 15 min: Review pandas basics and integration questions
+- 30 min: Exploratory data analysis of Canadian democracy trends
+- 35 min: Student work on Chapter 4 exercises with real V-Dem data
+- 10 min: Preview measurement challenges
+
+---
+
+## **WEEK 8: Data Visualization and Validation**
+*Chapter 5: Description, Visualization, and Validation*
+
+### Class 15: "Visualizing Political Trends and Relationships"
+**Core Learning Outcomes:**
+- Create publication-quality visualizations of political data using matplotlib/seaborn
+- Design graphics that effectively communicate uncertainty and temporal patterns
+- Apply visualization principles to complex multi-dimensional political datasets
+- Understand how visualization supports and enhances statistical analysis
+
+**Learning Progression:** *Builds on Chapter 4 analysis skills. Introduces visualization as analytical and communication tool.*
+
+**Class Structure:**
+- 20 min: Principles of effective data visualization with political examples
+- 30 min: Create visualizations of Canadian polling and democracy trends
+- 30 min: Student practice with visualization exercises
+- 10 min: Data validation preview
+
+---
+
+### Class 16: "Data Quality Assessment and Validation Methods"
+**Core Learning Outcomes:**
+- Implement comprehensive data quality checks for political datasets
+- Identify and handle missing data, outliers, and inconsistencies
+- Validate polling data against electoral outcomes and other indicators
+- Understand the relationship between data quality and research credibility
+
+**Learning Progression:** *Consolidates data analysis skills. Introduces validation thinking that continues through measurement chapters.*
+
+**Class Structure:**
+- 15 min: Why data quality matters - examples of misleading analysis
+- 30 min: Systematic validation approaches for political data
+- 35 min: Apply validation methods to student polling databases
+- 10 min: Transition to measurement theory
+
+---
+
+## **WEEK 9: Measuring Political Constructs**
+*Chapter 6: Measuring Sentiment and Political Opinion*
+
+### Class 17: "Multiple Approaches to Measuring Political Sentiment"
+**Core Learning Outcomes:**
+- Apply dictionary-based, VADER, and transformer approaches to political text analysis
+- Understand trade-offs between interpretability and accuracy in measurement
+- Validate text-based sentiment measures using feeling thermometer data
+- Connect measurement philosophy to broader research design principles
+
+**Learning Progression:** *Introduces measurement theory through practical applications. Sets up multi-method validation concepts for Chapter 7.*
+
+**Class Structure:**
+- 20 min: Measurement challenges in political research
+- 25 min: Implement three sentiment analysis approaches on Canadian political texts
+- 35 min: Compare results and validate against survey thermometer data
+- 10 min: Preview belief network analysis
+
+---
+
+### Class 18: "Feeling Thermometers and Measurement Validation"
+**Core Learning Outcomes:**
+- Analyze feeling thermometer data from Canadian Election Study
+- Compare direct assessment (thermometers) with inference (text analysis)
+- Understand measurement error and uncertainty quantification principles
+- Apply multi-method validation to political attitude measurement
+
+**Learning Progression:** *Deepens measurement concepts through comparison of methods. Prepares for systematic belief network analysis in Chapter 7.*
+
+**Class Structure:**
+- 15 min: Review sentiment analysis results and questions
+- 30 min: Analyze CES feeling thermometer data
+- 35 min: Multi-method validation exercises
+- 10 min: Cultural cognition preview
+
+---
+
+## **WEEK 10: Cultural Schemas and Belief Networks**
+*Chapter 7: Association, Cultural Schemas, and Belief Networks*
+
+### Class 19: "Cultural Cognition Theory and Political Belief Organization"
+**Core Learning Outcomes:**
+- Understand cultural schema theory and its application to political attitudes
+- Implement Bayesian correlation analysis with LKJ priors for belief networks
+- Identify different ways that political groups organize beliefs and attitudes
+- Connect correlation analysis to network thinking about political cognition
+
+**Learning Progression:** *Introduces sophisticated measurement theory. Builds on validation concepts from Chapter 6 to examine population heterogeneity.*
+
+**Class Structure:**
+- 25 min: Cultural cognition theory and Canadian political applications
+- 30 min: Bayesian correlation analysis of Canadian Election Study data
+- 25 min: Identify belief network patterns across political groups
+- 10 min: Preview advanced measurement models
+
+---
+
+### Class 20: "Co-expression vs. Regulation Networks"
+**Core Learning Outcomes:**
+- Distinguish between cultural co-expression and regulation networks
+- Apply P-CERN models to Canadian political belief data
+- Test theories of asymmetric polarization using network analysis
+- Understand advanced approaches to modeling population heterogeneity
+
+**Learning Progression:** *Introduces cutting-edge methodology for cultural analysis. Prepares for IRT and latent variable modeling in Chapter 8.*
+
+**Class Structure:**
+- 20 min: Co-expression vs. regulation network concepts
+- 30 min: Implement P-CERN analysis of Canadian political attitudes
+- 30 min: Test asymmetric polarization hypotheses
+- 10 min: Latent variable preview
+
+---
+
+## **WEEK 11: Advanced Measurement Models**
+*Chapter 8: Latent Factors and Democracy Measurement*
+
+### Class 21: "Item Response Theory for Democracy Measurement"
+**Core Learning Outcomes:**
+- Understand IRT as sophisticated approach to measuring latent constructs
+- Implement Bayesian IRT models using V-Dem democracy indicators
+- Interpret item parameters (difficulty, discrimination) and person parameters (democracy levels)
+- Connect IRT to broader principles of Bayesian measurement and uncertainty quantification
+
+**Learning Progression:** *Culminates measurement sequence with sophisticated latent variable modeling. Prepares for Bayesian inference in Chapter 9.*
+
+**Class Structure:**
+- 25 min: IRT theory and democracy measurement applications
+- 30 min: Implement Bayesian IRT model for Canadian democracy indicators
+- 25 min: Interpret results and compare with simple approaches
+- 10 min: Preview Bayesian foundations
+
+---
+
+### Class 22: "Measurement Validation and Integration"
+**Core Learning Outcomes:**
+- Assess IRT model quality through posterior predictive checks and diagnostics
+- Validate democracy measurements against external indicators
+- Integrate measurement approaches from Chapters 6-8 into coherent framework
+- Understand how measurement uncertainty propagates through statistical analysis
+
+**Learning Progression:** *Consolidates measurement learning. Sets up need for systematic Bayesian approach to handling uncertainty in modeling.*
+
+**Class Structure:**
+- 15 min: Review IRT concepts and address technical questions
+- 30 min: Model validation and diagnostic checking
+- 35 min: Integration exercise combining multiple measurement approaches
+- 10 min: Transition to Bayesian inference
+
+---
+
+## **WEEK 12: Foundations of Bayesian Inference**
+*Chapter 9: Uncertainty, Inference, and Credibility*
+
+### Class 23: "Probability as the Language of Uncertainty"
+**Core Learning Outcomes:**
+- Understand probability as tool for quantifying uncertainty in research
+- Work with probability distributions as models of data-generating processes
+- Apply Bayes' theorem to update beliefs in light of evidence
+- Connect probability concepts to measurement and modeling work from previous chapters
+
+**Learning Progression:** *Provides probability foundations for all subsequent Bayesian modeling. Integrates with uncertainty concepts from polling and measurement work.*
+
+**Class Structure:**
+- 20 min: Why we need probability - uncertainty in all previous analyses
+- 30 min: Probability distributions and Bayesian reasoning with polling examples
+- 30 min: Apply Bayes' theorem to updating election forecasts with new polls
+- 10 min: Preview generative modeling
+
+---
+
+### Class 24: "Credible Intervals and Uncertainty Quantification"
+**Core Learning Outcomes:**
+- Calculate and interpret credible intervals for research parameters
+- Distinguish Bayesian credible intervals from frequentist confidence intervals
+- Apply uncertainty quantification to polling, measurement, and forecasting problems
+- Understand how Bayesian approaches integrate measurement and modeling uncertainty
+
+**Learning Progression:** *Consolidates probability foundations. Prepares for generative modeling approach in optional advanced content.*
+
+**Class Structure:**
+- 15 min: Review probability concepts and address conceptual questions
+- 30 min: Credible intervals for polling averages and democracy measurements
+- 35 min: Student practice applying Bayesian reasoning to their research projects
+- 10 min: Course synthesis and advanced content preview
+
+---
+
+## **OPTIONAL WEEKS 13-14: Advanced Bayesian Modeling**
+
+### **WEEK 13: Generative Models and Regression**
+*Chapter 10: Statistical Inference with Generative Models*
+*Chapter 11: Regression Modeling*
+
+### Class 25: "From Probability to Generative Models"
+**Core Learning Outcomes:**
+- Build generative models that explain how political data could have been produced
+- Implement Bayesian regression using PyMC with Canadian political data
+- Use posterior predictive checks to validate model assumptions
+- Connect statistical models to substantive political theories
+
+### Class 26: "Advanced Regression with Political Applications"
+**Core Learning Outcomes:**
+- Model vote choice using feeling thermometer and demographic predictors
+- Handle multiple predictors, interactions, and non-linear relationships
+- Apply model comparison and validation strategies
+- Interpret Bayesian regression results for policy and theoretical insights
+
+---
+
+### **WEEK 14: Hierarchical Models and Integration**
+*Chapter 12: Multilevel Models*
+
+### Class 27: "Hierarchical Models for Political Data"
+**Core Learning Outcomes:**
+- Understand partial pooling and hierarchical structure in political data
+- Implement multilevel models for voters nested in ridings/provinces
+- Apply varying intercepts and slopes models to campaign spending effects
+- Connect hierarchical thinking to measurement and cultural cognition concepts
+
+### Class 28: "Course Integration and Future Directions"
+**Core Learning Outcomes:**
+- Synthesize learning across all course components
+- Complete comprehensive analysis combining polling, measurement, and modeling
+- Understand connections to advanced computational social science methods
+- Design independent research projects using course framework
+
+---
+
+## **Assessment Structure**
+
+**Cumulative Project (60%):** Canadian polling tracker that evolves throughout course
+- Weeks 1-3: Basic tracker with data collection and analysis
+- Weeks 4-6: Automated system with forecasting
+- Weeks 7-9: Integration with democracy data and measurement validation
+- Weeks 10-12: Bayesian analysis and uncertainty quantification
+- Optional: Advanced modeling components
+
+**Weekly Problem Sets (25%):** Chapter exercises with peer review component
+
+**Participation and Lab Engagement (15%):** Active participation in hands-on sessions
+
+## **Key Pedagogical Principles**
+
+1. **Minimal Lecturing:** Maximum 25 minutes per 90-minute session
+2. **Immediate Application:** Every concept practiced within same session
+3. **Cumulative Building:** Each week builds directly on previous learning
+4. **Real Data:** All exercises use current Canadian political data
+5. **Peer Learning:** Regular pair programming and collaborative problem-solving
+6. **Research Integration:** Programming, methodology, and theory learned together
+
+---
+

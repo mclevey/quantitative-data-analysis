@@ -1,0 +1,192 @@
+
+
+## What it checks (each worth 25%)
+
+1. Notebook **runs top-to-bottom** (<2 min default)
+2. At least **one figure** produced (e.g., matplotlib/plotly image)
+3. At least **one table** rendered (HTML with `<table>`)
+4. A **reflection** (any markdown cell with ≥40 words; optional keyword like “uncertainty”)
+
+It emits a **CSV** with columns `MUNID,filename,run_ok,has_figure,has_table,reflection_ok,total`.
+
+
+## Minimal dependencies
+
+```bash
+pip install nbclient nbformat pandas
+```
+
+
+## The script: `lazy_grader.py`
+
+```{python}
+import argparse, re, sys, time, json, nbformat, pandas as pd
+from pathlib import Path
+from nbclient import NotebookClient, CellExecutionError
+
+MUNID_RE = re.compile(r'MUNID\s*=\s*["\'](A0{2}\w{5,})["\']', re.IGNORECASE)
+
+def extract_munid(nb, fallback):
+    # search code cells for MUNID = "A00XXXXXX"
+    for cell in nb.cells:
+        if cell.cell_type == "code":
+            m = MUNID_RE.search(cell.source or "")
+            if m: return m.group(1)
+    # fallback: try to find A00… in filename
+    m = re.search(r'(A0{2}\w{5,})', fallback)
+    return m.group(1) if m else Path(fallback).stem
+
+def count_figures_and_tables(nb):
+    figs = 0
+    tables = 0
+    for cell in nb.cells:
+        if cell.cell_type != "code": 
+            continue
+        for out in cell.get("outputs", []):
+            data = out.get("data", {})
+            if "image/png" in data or "image/svg+xml" in data: 
+                figs += 1
+            # HTML tables from pandas display/Styler/etc.
+            html = data.get("text/html")
+            if isinstance(html, list):
+                html = "".join(html)
+            if isinstance(html, str) and "<table" in html.lower():
+                tables += 1
+    return figs, tables
+
+def reflection_ok(nb, min_words=40, required_keyword=None):
+    # take the longest markdown chunk as "reflection"
+    best = ""
+    for cell in nb.cells:
+        if cell.cell_type == "markdown":
+            text = (cell.source or "").strip()
+            if len(text.split()) > len(best.split()):
+                best = text
+    words = len(best.split())
+    kw_ok = True if not required_keyword else (required_keyword.lower() in best.lower())
+    return (words >= min_words) and kw_ok
+
+def run_notebook(path, timeout=120):
+    nb = nbformat.read(path, as_version=4)
+    client = NotebookClient(nb, timeout=timeout, kernel_name="python3", allow_errors=False)
+    t0 = time.time()
+    try:
+        client.execute()
+        ran = True
+    except CellExecutionError:
+        ran = False
+    elapsed = time.time() - t0
+    return nb, ran, elapsed
+
+def grade_one(path, timeout, keyword):
+    nb, ran, elapsed = run_notebook(path, timeout=timeout)
+    munid = extract_munid(nb, str(path))
+    figs, tables = (0,0)
+    refl_words = 0
+    refl_text = ""
+
+    if ran:
+        figs, tables = count_figures_and_tables(nb)
+        # longest markdown chunk as reflection
+        best = ""
+        for cell in nb.cells:
+            if cell.cell_type == "markdown":
+                text = (cell.source or "").strip()
+                if len(text.split()) > len(best.split()):
+                    best = text
+        refl_text = best
+        refl_words = len(best.split())
+
+    # Scores
+    run_score = 20 if ran else 0
+
+    if tables >= 2: table_score = 20
+    elif tables == 1: table_score = 10
+    else: table_score = 0
+
+    if figs >= 2: fig_score = 20
+    elif figs == 1: fig_score = 10
+    else: fig_score = 0
+
+    # Reflection scoring
+    if refl_words == 0:
+        refl_score = 0
+    elif refl_words >= 80 and (not keyword or keyword.lower() in refl_text.lower()):
+        refl_score = 40
+    elif refl_words >= 40:
+        refl_score = 20
+    else:
+        refl_score = 0
+
+    total = run_score + table_score + fig_score + refl_score
+
+    return {
+        "MUNID": munid,
+        "filename": Path(path).name,
+        "run_score": run_score,
+        "table_score": table_score,
+        "figure_score": fig_score,
+        "reflection_score": refl_score,
+        "total": total,
+        "runtime_sec": round(elapsed, 1),
+    }
+
+def main():
+    ap = argparse.ArgumentParser(description="Lazy contract grader for .ipynb notebooks.")
+    ap.add_argument("notebooks", nargs="+", help="Paths or globs to .ipynb files")
+    ap.add_argument("--timeout", type=int, default=120, help="Per-notebook execution timeout (sec)")
+    ap.add_argument("--require-keyword", default=None, help="Optional required keyword in reflection (e.g., 'uncertainty')")
+    ap.add_argument("--out", default="grades.csv", help="Output CSV path")
+    args = ap.parse_args()
+
+    # expand globs
+    paths = []
+    for p in args.notebooks:
+        paths += [str(x) for x in Path().glob(p)] if any(ch in p for ch in "*?[]") else [p]
+    if not paths:
+        print("No notebooks found.", file=sys.stderr)
+        sys.exit(1)
+
+    rows = []
+    for p in sorted(set(paths)):
+        try:
+            rows.append(grade_one(p, args.timeout, args.require_keyword))
+        except Exception as e:
+            # Hard fail gets a zero but still records submission
+            rows.append({
+                "MUNID": Path(p).stem,
+                "filename": Path(p).name,
+                "run_ok": 0, "has_figure": 0, "has_table": 0, "reflection_ok": 0,
+                "total": 0, "runtime_sec": -1,
+            })
+
+    df = pd.DataFrame(rows).sort_values(["MUNID","filename"])
+    df.to_csv(args.out, index=False)
+    # Also print a Brightspace-friendly minimal CSV to stdout (you can map Grade Item on import)
+    print(df.to_csv(index=False))
+
+if __name__ == "__main__":
+    main()
+```
+
+
+## How to use it
+
+```{bash}
+# 1) Put all downloaded submissions in ./subs/
+# 2) Run the grader (keyword required for Project 2 & 3; omit for Project 1)
+python lazy_grader.py "subs/*.ipynb" --timeout 120 --require-keyword uncertainty --out grades_proj2.csv
+
+# 3) Import grades_proj2.csv into Brightspace
+#    (map MUNID to Org Defined ID or Username depending on your setup)
+```
+
+### Notes / tweaks
+
+* **MUNID**: make students include `MUNID = "A00XXXXXX"` in the FIRST code cell. The script extracts it; otherwise it falls back to the filename.
+* **Figures**: counts any image output (`image/png` or `svg`). That covers matplotlib/plotly seaborn etc.
+* **Tables**: detects HTML `<table>` from pandas displays; if students only print text, tell them to use `df.head()` or `df.to_markdown()` (the latter won’t count as HTML—prefer HTML).
+* **Reflection**: longest markdown cell; require “uncertainty” for Projects 2–3 by passing `--require-keyword uncertainty`.
+
+If you want, I can also give you a 1-liner **Brightspace import mapping** tip-sheet and a tiny “starter cell” for students that sets `MUNID`, seeds numpy, and reminds them of the 4 contract checks.
+

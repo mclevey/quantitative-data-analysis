@@ -1,0 +1,428 @@
+> Would it be very hard to build a web scraper in Python to scrape data on the wikipedia page for Canadian political polls? https://en.wikipedia.org/wiki/Opinion_polling_for_the_2025_Canadian_federal_election Could this be a good teaching example?
+
+# Short answer: not hard—and yes, it’s a great teaching example.
+
+Why it’s suitable
+
+* Real, messy tables: The page is built from multiple “wikitable” HTML tables (national, regional, leadership, approval), all with footnotes, merged cells, rolling samples, and varied numeric formats—perfect for teaching tabular scraping + cleaning. ([Wikipedia][1])
+* Teachable moments: HTTP requests, polite scraping, `pandas.read_html`, schema drift handling, date parsing, numeric coercion, joining sections, documenting provenance, and simple tests.
+* Low barrier to entry: You can get a usable dataset in \~30 lines, then layer on improvements (types, validation, plotting, caching).
+
+A minimal end-to-end example (ready to drop in a notebook)
+
+```python
+import re, io, requests
+import pandas as pd
+
+URL = "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2025_Canadian_federal_election"
+
+# 1) Fetch & parse all wikitables in one go
+html = requests.get(URL, timeout=30).text
+tables = pd.read_html(html)  # returns a list of DataFrames
+
+# 2) Keep only tables that look like “poll rows” (has these required columns)
+REQUIRED = {"Polling firm", "Last date of polling", "Sample size"}
+poll_like = [t for t in tables if REQUIRED.issubset(set(t.columns))]
+
+# 3) Concatenate and standardize column names
+df = (pd.concat(poll_like, ignore_index=True)
+        .rename(columns=lambda c: (c
+                                   .strip()
+                                   .lower()
+                                   .replace(" ", "_")
+                                   .replace("[a]", "")
+                                   .replace("[b]", "")
+                                   .replace("[c]", ""))))
+
+# 4) Clean key fields
+# dates
+df["last_date_of_polling"] = pd.to_datetime(df["last_date_of_polling"], errors="coerce")
+
+# sample size: keep digits only
+df["sample_size"] = (df["sample_size"]
+                     .astype(str)
+                     .str.replace(r"[^\d]", "", regex=True)
+                     .replace("", pd.NA)
+                     .astype("Int64"))
+
+# margin of error: pull the number (pp) as float
+def parse_moe(s):
+    if pd.isna(s): return pd.NA
+    m = re.search(r"±\s*([\d\.]+)", str(s))
+    return float(m.group(1)) if m else pd.NA
+df["margin_of_error_pp"] = df["margin_of_error"].map(parse_moe)
+
+# 5) Identify party columns (handles CPC/LPC/NDP/BQ/PPC/GPC/Others)
+party_cols = [c for c in df.columns if c in {"cpc","lpc","ndp","bq","ppc","gpc","others"}]
+for c in party_cols:
+    df[c] = (pd.to_numeric(df[c], errors="coerce"))  # percentages as float
+
+# 6) Optional: keep just a tidy core
+keep = ["polling_firm","last_date_of_polling","sample_size","polling_method","margin_of_error_pp"] + party_cols
+tidy = df[keep].sort_values("last_date_of_polling", ascending=False).reset_index(drop=True)
+
+tidy.head(10)
+```
+
+What students learn (nice progression)
+
+1. **Week 1—Quick win:** Use `pandas.read_html` to pull the main “National polls” tables; basic cleaning (dates, ints, floats).
+2. **Week 2—Robustness:** Handle schema drift (column name changes), footnotes (`[a]`), non-numeric sample sizes (e.g., “(1/3) rolling”), merged cells, and missing values.
+3. **Week 3—Validation:** Add light checks (e.g., `assert tidy["cpc"].between(0,100).all()`), and write a couple of unit tests.
+4. **Week 4—Communication:** Plot a simple trendline with rolling means and document assumptions; compare two firms’ methods vs. levels.
+5. **Week 5—Reproducibility & ethics:** Cache raw HTML, add a README with attribution (Wikipedia content is CC BY-SA), and note that underlying poll IP belongs to the firms.
+6. **Stretch goals:** Show how to (a) scrape by section (national vs. provincial), (b) unify party codes, (c) join to seat-projection models, or (d) schedule a daily refresh.
+
+Gotchas to flag for students
+
+* **Structure changes frequently.** Don’t hard-code a specific table index; detect by column headers, as in the example. ([Wikipedia][1])
+* **Textual noise:** sample sizes include commas and notes (“(rolling)”, fractions); margins of error may be missing; methods vary (IVR/online/phone). ([Wikipedia][1])
+* **Multiple sections:** National vs. regional vs. leadership vs. approval tables—decide scope and add a “source\_section” column when combining. ([Wikipedia][1])
+
+Bottom line
+
+* Difficulty: **Easy to moderate** (great for a 1–2 week mini-project).
+* Pedagogical value: **High**—students see the whole workflow: acquire → clean → validate → analyze → communicate, on timely Canadian content.
+
+[1]: https://en.wikipedia.org/wiki/Opinion_polling_for_the_2025_Canadian_federal_election "Opinion polling for the 2025 Canadian federal election - Wikipedia"
+
+
+```{python}
+import re, io, requests
+import pandas as pd
+
+URL = "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2025_Canadian_federal_election"
+
+# 1) Fetch & parse all wikitables in one go
+html = requests.get(URL, timeout=30).text
+tables = pd.read_html(html)  # returns a list of DataFrames
+
+# 2) Keep only tables that look like “poll rows” (has these required columns)
+REQUIRED = {"Polling firm", "Last date of polling", "Sample size"}
+poll_like = [t for t in tables if REQUIRED.issubset(set(t.columns))]
+
+# 3) Concatenate and standardize column names
+df = (pd.concat(poll_like, ignore_index=True)
+        .rename(columns=lambda c: (c
+                                   .strip()
+                                   .lower()
+                                   .replace(" ", "_")
+                                   .replace("[a]", "")
+                                   .replace("[b]", "")
+                                   .replace("[c]", ""))))
+
+# 4) Clean key fields
+# dates
+df["last_date_of_polling"] = pd.to_datetime(df["last_date_of_polling"], errors="coerce")
+
+# sample size: keep digits only
+df["sample_size"] = (df["sample_size"]
+                     .astype(str)
+                     .str.replace(r"[^\d]", "", regex=True)
+                     .replace("", pd.NA)
+                     .astype("Int64"))
+
+# margin of error: pull the number (pp) as float
+def parse_moe(s):
+    if pd.isna(s): return pd.NA
+    m = re.search(r"±\s*([\d\.]+)", str(s))
+    return float(m.group(1)) if m else pd.NA
+df["margin_of_error_pp"] = df["margin_of_error"].map(parse_moe)
+
+# 5) Identify party columns (handles CPC/LPC/NDP/BQ/PPC/GPC/Others)
+party_cols = [c for c in df.columns if c in {"cpc","lpc","ndp","bq","ppc","gpc","others"}]
+for c in party_cols:
+    df[c] = (pd.to_numeric(df[c], errors="coerce"))  # percentages as float
+
+# 6) Optional: keep just a tidy core
+keep = ["polling_firm","last_date_of_polling","sample_size","polling_method","margin_of_error_pp"] + party_cols
+tidy = df[keep].sort_values("last_date_of_polling", ascending=False).reset_index(drop=True)
+
+tidy.head(10)
+
+```
+
+
+
+```{python}
+import io
+import requests
+import pandas as pd
+
+BASE = "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2025_Canadian_federal_election"
+URL = BASE + "?action=render"  # server-rendered HTML without nav chrome
+
+headers = {
+    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+                  "(KHTML, like Gecko) Chrome/124.0 Safari/537.36 "
+                  "edu-scraper/0.1"
+}
+
+resp = requests.get(URL, headers=headers, timeout=30)
+resp.raise_for_status()
+
+html = resp.text
+
+# PRO TIP (debug once): print a tiny preview to confirm we got article HTML
+# print(html[:400])
+
+# Pull only the wikitables; include collapsed/hidden tables just in case
+tables = pd.read_html(io.StringIO(html),
+                      attrs={"class": "wikitable"},
+                      flavor="html5lib",
+                      displayed_only=False)
+
+# Sanity check
+if not tables:
+    raise RuntimeError("No wikitables found—check HTML preview and URL/headers.")
+
+# Example: pick poll-like tables by required columns
+REQUIRED = {"Polling firm", "Last date of polling", "Sample size"}
+poll_like = [t for t in tables if REQUIRED.issubset(set(t.columns))]
+
+df = (pd.concat(poll_like, ignore_index=True)
+        .rename(columns=lambda c: c.strip().lower().replace(" ", "_")))
+print(df.head())
+
+```
+
+You hit a classic gotcha: `pd.read_html` didn’t see any `<table>` tags in the HTML you fed it. With Wikipedia that usually means one of these:
+
+1. You fetched a “non-content” page (e.g., consent/redirect/mobile shell) → no tables.
+2. Your HTML parser skipped collapsible/hidden tables.
+3. You passed the raw HTML string (which is fine) but the content you got back didn’t include the wikitables.
+
+Here’s a robust fix you can drop in. It does three things:
+
+* Adds a real User-Agent (Wikipedia sometimes serves different markup without it).
+* Uses `action=render` to get the clean, server-rendered article HTML.
+* Tells pandas to grab only `.wikitable` tables and to include non-displayed tables if any.
+
+```python
+import io
+import requests
+import pandas as pd
+
+BASE = "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2025_Canadian_federal_election"
+URL = BASE + "?action=render"  # server-rendered HTML without nav chrome
+
+headers = {
+    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+                  "(KHTML, like Gecko) Chrome/124.0 Safari/537.36 "
+                  "edu-scraper/0.1"
+}
+
+resp = requests.get(URL, headers=headers, timeout=30)
+resp.raise_for_status()
+
+html = resp.text
+
+# PRO TIP (debug once): print a tiny preview to confirm we got article HTML
+# print(html[:400])
+
+# Pull only the wikitables; include collapsed/hidden tables just in case
+tables = pd.read_html(io.StringIO(html),
+                      attrs={"class": "wikitable"},
+                      flavor="html5lib",
+                      displayed_only=False)
+
+# Sanity check
+if not tables:
+    raise RuntimeError("No wikitables found—check HTML preview and URL/headers.")
+
+# Example: pick poll-like tables by required columns
+REQUIRED = {"Polling firm", "Last date of polling", "Sample size"}
+poll_like = [t for t in tables if REQUIRED.issubset(set(t.columns))]
+
+df = (pd.concat(poll_like, ignore_index=True)
+        .rename(columns=lambda c: c.strip().lower().replace(" ", "_")))
+print(df.head())
+```
+
+If you still get “No tables found,” do a quick diagnosis:
+
+* Print `resp.url` (to see if you were redirected).
+* Print `html[:1000]` (you’ll immediately spot a consent/blocked page).
+* Try the direct URL (let pandas fetch it):
+  `tables = pd.read_html(BASE + "?action=render", attrs={"class":"wikitable"}, flavor="html5lib", displayed_only=False)`
+
+Extra hardening (useful for teaching):
+
+* Assert a minimum HTML size before parsing (e.g., `len(html) > 50_000`).
+* Cache the raw HTML to disk so students can reproduce results without hammering Wikipedia.
+* Add a tiny test that fails loudly if Wikipedia’s schema changes (e.g., missing “Polling firm”).
+
+This turns your error into a neat lesson on **HTTP headers**, **server- vs client-rendered HTML**, and **parser options**—exactly the kind of real-world friction that makes this a great teaching example.
+
+
+Yup—your `poll_like` list is empty. Wikipedia’s tables don’t always use the exact headers you filtered on (“Last date of polling” vs “Date(s) conducted”, “Polling firm/Commissioner”, etc.), so nothing matched and `pd.concat([])` threw “No objects to concatenate”.
+
+Here’s a drop-in fix that:
+
+* Fetches the rendered HTML (User-Agent + `?action=render`)
+* Parses only `.wikitable`
+* **Normalizes column names** (lowercase, strip footnotes, unify slashes/spaces)
+* Detects poll tables flexibly (any alias of polling firm, date, sample size **plus** ≥3 party columns)
+* Concatenates what it finds and gives you a tidy frame
+
+```{python}
+import re, io, requests, pandas as pd
+
+BASE = "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2025_Canadian_federal_election"
+URL = BASE + "?action=render"
+headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) Chrome/124.0 edu-scraper/0.1"}
+
+html = requests.get(URL, headers=headers, timeout=30).text
+tables = pd.read_html(io.StringIO(html), attrs={"class": "wikitable"}, flavor="html5lib", displayed_only=False)
+
+def norm_col(c) -> str:
+    # Handle multi-level columns (tuples) by taking the first non-empty level
+    if isinstance(c, tuple):
+        # Take the first level that's not just "Unnamed: X_level_Y"
+        for level in c:
+            if not str(level).startswith('Unnamed:'):
+                c = level
+                break
+        else:
+            c = c[0]  # fallback to first level
+    
+    c = str(c)
+    c = re.sub(r"\[.*?\]", "", c)     # remove [a], [1], etc.
+    c = c.lower().strip()
+    c = c.replace("/", " ").replace("\xa0", " ")
+    c = re.sub(r"\s+", " ", c)
+    c = c.replace(" ", "_")
+    return c
+
+# Column alias groups
+ALIAS = {
+    "firm": {"polling_firm", "pollster", "polling_firm_commissioner", "polling_firm_commissioner_", "commissioner", "polling_firm/commissioner"},
+    "date": {"date_conducted", "dates_conducted", "last_date_of_polling", "date_ended", "fieldwork_end_date", "last_date"},
+    "n": {"sample_size", "n", "samplesize"},
+}
+
+PARTY_SET = {"cpc","cons","conservative","lpc","lib","liberal","ndp","bq","ppc","gpc","greens","green","other","others","bloc_quebecois"}
+
+def is_poll_table(df: pd.DataFrame) -> bool:
+    cols = {norm_col(c) for c in df.columns}
+    has_firm = any(a in cols for a in ALIAS["firm"])
+    has_date = any(a in cols for a in ALIAS["date"])
+    has_n    = any(a in cols for a in ALIAS["n"])
+    party_cols = [c for c in cols if c in PARTY_SET]
+    return has_firm and has_date and has_n and len(party_cols) >= 3
+
+# Normalize columns and select poll-like tables
+normed = []
+for t in tables:
+    t = t.copy()
+    t.columns = [norm_col(c) for c in t.columns]
+    if is_poll_table(t):
+        normed.append(t)
+
+if not normed:
+    # Helpful debug to see what columns Wikipedia is using right now
+    for i, t in enumerate(tables):
+        print(f"Table {i} cols:", [norm_col(c) for c in t.columns])
+    raise RuntimeError("No poll-like tables matched. Check the printed columns and update aliases.")
+
+df = pd.concat(normed, ignore_index=True)
+
+# Identify party columns present *after* normalization
+party_cols = [c for c in df.columns if c in PARTY_SET]
+
+# Standardize party names a bit
+party_map = {
+    "cons":"cpc", "conservative":"cpc",
+    "lib":"lpc", "liberal":"lpc",
+    "greens":"gpc", "green":"gpc",
+}
+df = df.rename(columns={k:v for k,v in party_map.items() if k in df.columns})
+
+# Clean core variables
+def parse_int(s):
+    s = re.sub(r"[^\d]", "", str(s))
+    return pd.NA if s == "" else int(s)
+
+# pick canonical column names
+firm_col = next(c for c in df.columns if c in ALIAS["firm"])
+date_col = next(c for c in df.columns if c in ALIAS["date"])
+n_col    = next(c for c in df.columns if c in ALIAS["n"])
+
+df["polling_firm"] = df[firm_col].astype(str).str.strip()
+df["date"] = pd.to_datetime(df[date_col], errors="coerce")
+df["sample_size"] = df[n_col].map(parse_int).astype("Int64")
+
+# numeric parties as floats
+for c in set(party_cols) | set(party_map.values()):
+    if c in df.columns:
+        df[c] = pd.to_numeric(df[c], errors="coerce")
+
+keep = ["polling_firm","date","sample_size"] + [c for c in ["cpc","lpc","ndp","bq","ppc","gpc","other","others"] if c in df.columns]
+tidy = (df[keep]
+        .sort_values("date", ascending=False)
+        .reset_index(drop=True))
+
+print(f"Successfully scraped {len(tidy)} poll records from {len(normed)} tables")
+print(f"Date range: {tidy['date'].min()} to {tidy['date'].max()}")
+print(f"Party columns: {[c for c in tidy.columns if c in ['cpc','lpc','ndp','bq','ppc','gpc','others']]}")
+tidy.head(10)
+```
+
+### Why this works (and how to teach it)
+
+* **Schema drift tolerant:** We match by *aliases*, not exact text. Students learn to expect header changes.
+* **Column normalization:** Lowercase + strip footnotes + unify separators beats “why does my filter miss the table?” errors.
+* **Defensive selection:** Require firm+date+N and ≥3 party columns so we don’t accidentally grab “Notes” tables.
+* **Actionable debug:** If nothing matches, we print all normalized headers so students can update the alias sets—great for a quick in-class fix.
+
+If you want to go even further later:
+
+* Cache `html` to `raw/` and add a tiny `pytest` that asserts presence of key columns.
+* Parse “rolling” vs “single” samples from a “notes/method” column.
+* Add a `source_section` field by scanning nearby headings with `BeautifulSoup` if you need national vs provincial splits.
+
+
+
+---
+
+I can see you're getting a RuntimeError because the script isn't finding any tables that match the expected poll table structure. Let me check what tables are actually on the Wikipedia page and see what columns they have.
+
+Let me first get a summary of the notebook to see the cell structure:
+
+Retrieving Notebook summary.
+
+Let me read the file to understand its structure better:
+
+Read _wikipedia_polls_example.qmd, lines 90 to 120
+
+Let me check if this is a Jupyter notebook by looking at the current file in VS Code and running the problematic code to see what tables are actually found:
+
+Let me check what Python packages are available and install requests if needed:
+
+Perfect! Now I can see the issue. The tables have multi-level column headers (tuples), not simple strings. For example, the first table has columns like ('Polling firm', 'Polling firm') and ('Sample size[d]', 'Sample size[d]').
+
+The current code is trying to normalize column names as strings, but they're actually tuples. Let me update the code to handle this:
+
+_wikipedia_polls_example.qmd+12-2
+Now let me test the updated code:
+
+Great! The column normalization is now working. Let me test the full updated code:
+
+Excellent! The code is now working and found 22 poll tables. Now let me update the complete code in the file with all the improvements:
+
+_wikipedia_polls_example.qmd+4-1
+Perfect! Now the code is fixed and should work properly. The main issue was that pandas was returning multi-level column headers as tuples instead of simple strings. This is common when scraping HTML tables with complex header structures.
+
+Summary of the fix:
+Multi-level column handling: The norm_col() function now properly handles tuple columns by extracting the meaningful level (not "Unnamed: X_level_Y")
+
+Updated date aliases: Added "last_date" to handle the variation in date column names
+
+Better error reporting: The code now shows exactly what columns are found if no poll tables match
+
+Improved output: Added informative print statements showing the number of records scraped and date range
+
+The key lesson for students is that real-world web scraping often involves handling unexpected data structures like multi-level headers, and writing robust code means anticipating these variations and building flexible parsers.
+
+You can now run the updated code cell and it should successfully scrape the Canadian polling data!
+

@@ -1,0 +1,65 @@
+# Project 2 — Measuring and Comparing (Template)
+
+**Due:** End of Week 8  
+**Weight:** 15% of final grade  
+
+## How this project works
+
+This project is about *creating new measures and comparing groups*.  
+You can continue with your dataset from Project 1 or choose a new one.  
+
+### How this project is graded (max 100 points)
+
+- Runs without error: 0 or 20 points  
+- Tables: 0 (none), 10 (one), 20 (two or more group comparisons)  
+- Figures: 0 (none), 10 (one), 20 (two or more group visualizations)  
+- Reflection: 0 (none), 20 (≥40 words), 40 (≥80 words AND contains **“uncertainty”**)  
+
+> Minimum effort = ~60–70%  
+> Full effort = 100%  
+
+```{python}
+# =========================
+# Project 2 Starter Cell
+# =========================
+
+MUNID = "A00XXXXXX"
+
+import numpy as np
+np.random.seed(abs(hash(MUNID)) % 10_000_000)
+print("MUNID:", MUNID, "| Seed set")
+```
+
+## Step 1 — Load your data
+
+```{python}
+import pandas as pd
+df = pd.DataFrame({
+    "group": ["A","A","A","B","B","B","C","C","C"],
+    "score": [10,12,13,20,18,22,30,28,31]
+})
+df.head()
+```
+
+## Step 2 — Tables (aim for 2+ for full marks)
+
+```{python}
+df.groupby("group")["score"].describe()
+```
+
+## Step 3 — Figures (aim for 2+ for full marks)
+
+```{python}
+df.groupby("group")["score"].mean().plot(kind="bar")
+```
+
+## Step 4 — Reflection (≥40 words for partial credit, ≥80 words AND include “uncertainty” for full marks)
+
+*Reflection goes here.*
+
+## Final Check (self-assessment)
+
+- [ ] Notebook runs without error (20 pts)  
+- [ ] Tables: 0/10/20 (2+ group tables for full marks)  
+- [ ] Figures: 0/10/20 (2+ group figures for full marks)  
+- [ ] Reflection: 0/20/40 (≥80 words and must include **“uncertainty”**)  

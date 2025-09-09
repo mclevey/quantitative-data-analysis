@@ -1,0 +1,78 @@
+# Mini-Project Guide
+
+You will complete **three mini-projects** across the term. These projects are your chance to explore, measure, and model data in an open-ended way.
+
+There are **no tricks** and no “one perfect answer.” Sometimes there are clear right/wrong steps, but often it’s about showing your process, interpretation, and consistent engagement.
+
+> **Do the work, get the grade.** If you meet the project requirements, you will succeed.
+
+## Project Overview
+
+### Project 1 — Exploring and Describing Data
+
+* **Due:** End of Week 4
+* **Weight:** 15%
+* **Goal:** Practice cleaning, summarizing, and visualizing data.
+* **Requirements (each worth 25%):**
+
+  1. Notebook runs top-to-bottom without error.
+  2. At least one table summarizing data.
+  3. At least one figure (histogram, scatterplot, etc.).
+  4. Reflection (≥40 words).
+
+### Project 2 — Measuring and Comparing
+
+* **Due:** End of Week 8
+* **Weight:** 15%
+* **Goal:** Create new measures and compare groups.
+* **Requirements (each worth 25%):**
+
+  1. Notebook runs top-to-bottom without error.
+  2. At least one table comparing groups.
+  3. At least one figure showing group differences.
+  4. Reflection (≥40 words) **must include the word “uncertainty.”**
+
+### Project 3 — Modeling and Communicating
+
+* **Due:** End of Week 12
+* **Weight:** 20%
+* **Goal:** Fit a simple model and explain results clearly.
+* **Requirements (each worth 25%):**
+
+  1. Notebook runs top-to-bottom without error.
+  2. At least one table of model results (coefficients, intervals, etc.).
+  3. At least one figure showing predictions or uncertainty.
+  4. Reflection (≥40 words) **must include the word “uncertainty”** and one substantive conclusion in plain language.
+
+## Grading System
+
+Each required component is worth **25%** of the project grade.
+
+* Meeting all four = **100%**.
+* Missing one = **75%**.
+* Missing two = **50%**, and so on.
+
+Grades are **binary and transparent** — you always know where your marks come from.
+
+## Submission Instructions
+
+* Work in **Google Colab** (or Jupyter).
+* At the very top of your notebook, include:
+
+```python
+MUNID = "A00XXXXXX"   # replace with your student number
+```
+
+* Submit your **`.ipynb` notebook file** to Brightspace by the deadline.
+* That’s it — simple and straightforward.
+
+## Feedback
+
+When your project is graded, you’ll see:
+
+* Your score (0, 25, 50, 75, or 100).
+* A short comment if something was missing (e.g., “No figure found.”).
+
+The goal is **steady progress, not perfection**.
+
+**Remember:** If you keep up with the work and include the four contract items, you will do well. I want you to succeed.

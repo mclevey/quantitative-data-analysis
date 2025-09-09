@@ -1,0 +1,179 @@
+# 1. Starter Cell (students paste at the very top)
+
+Tell students **“Do not delete or modify except to add your MUN ID”**. This guarantees consistency:
+
+```{python}
+# =========================
+# COURSE: SOCI/CRIM 3040
+# LAB/PROJECT: ___
+# =========================
+
+MUNID = "A00XXXXXX"   # <-- replace with your ID (must start with A00)
+
+# Set seed for reproducibility
+import numpy as np
+np.random.seed(abs(hash(MUNID)) % 10_000_000)
+
+print("MUNID:", MUNID, "| Seed set")
+```
+
+💡 Benefits:
+
+* Your grader can always pull out `MUNID`.
+* Every student gets a deterministic random seed.
+* Printing it at the start gives them reassurance.
+
+---
+
+# 2. Reminder Cell (bottom of template)
+
+Add this so students check themselves before submitting:
+
+```{python}
+# Quick self-check before packaging
+
+print("✅ Notebook executed successfully!")
+print("Make sure you included:")
+print(" - At least one table (e.g., df.head(), groupby summary)")
+print(" - At least one figure (plt.plot(), sns.histplot(), etc.)")
+print(" - At least one reflection paragraph (≥40 words)")
+print(" - The keyword 'uncertainty' (for Project 2 & 3)")
+```
+
+---
+
+# 3. Brightspace CSV Import Tip-Sheet
+
+When you run the grader you’ll get `grades_projX.csv` like:
+
+```csv
+MUNID,filename,run_ok,has_figure,has_table,reflection_ok,total,runtime_sec
+A00123456,proj1_A00123456.ipynb,1,1,1,1,100,45.2
+A00987654,proj1_A00987654.ipynb,1,1,0,1,75,32.0
+```
+
+To import:
+
+1. In **Brightspace > Grades > Enter Grades > Import** choose **CSV**.
+2. Use **Org Defined ID** mapping:
+
+   * Brightspace usually calls student numbers “Org Defined ID”.
+   * If not, check your institution’s docs (some use Username).
+3. Map `MUNID` → “Org Defined ID”.
+4. Map `total` → the grade item for the project.
+5. Ignore all other columns (or keep them if you want for auditing).
+
+✅ Done — all marks appear in the gradebook.
+
+---
+
+# 4. Optional: Feedback Column
+
+If you want minimal feedback to auto-return, add this to the grader script before saving CSV:
+
+```{python}
+def make_feedback(row, keyword=None):
+    msgs = []
+
+    # Run check
+    if row["run_score"] == 0:
+        msgs.append("Notebook did not run from top to bottom (0/20).")
+    else:
+        msgs.append("Notebook ran successfully (20/20).")
+
+    # Tables check
+    if row["table_score"] == 0:
+        msgs.append("No tables found (0/20). Add at least one summary table.")
+    elif row["table_score"] == 10:
+        msgs.append("One table found (10/20). Add a second table for full marks.")
+    else:
+        msgs.append("Two or more tables found (20/20).")
+
+    # Figures check
+    if row["figure_score"] == 0:
+        msgs.append("No figures found (0/20). Include at least one visualization.")
+    elif row["figure_score"] == 10:
+        msgs.append("One figure found (10/20). Add a second figure for full marks.")
+    else:
+        msgs.append("Two or more figures found (20/20).")
+
+    # Reflection check
+    if row["reflection_score"] == 0:
+        msgs.append("Reflection missing or too short (0/40).")
+    elif row["reflection_score"] == 20:
+        msgs.append("Reflection adequate (20/40). Expand to 80+ words "
+                    + (f"and mention '{keyword}' for full marks." if keyword else "for full marks."))
+    else:
+        msgs.append("Reflection complete and meets all requirements (40/40).")
+
+    return " | ".join(msgs)
+
+```
+
+Now `grades_projX.csv` has a “feedback” column. You can import that into Brightspace so students see one-line auto-comments.
+
+---
+
+# 5. Lazy Workflow in Practice
+
+1. Post the starter notebook template with the top & bottom cells pre-inserted.
+2. Students fill in the middle with their analysis.
+3. They submit **just the `.ipynb` file** on Brightspace.
+4. You batch download, run:
+
+```bash
+python lazy_grader.py "subs/*.ipynb" --require-keyword uncertainty --out grades_proj2.csv
+```
+
+5. Import `grades_proj2.csv` into Brightspace.
+6. (Optional) Upload auto-feedback if included.
+
+👉 Whole grading run takes **minutes**. Zero manual fiddling.
+
+---
+
+# Integration
+
+After grading all notebooks, add:
+
+```{python}
+df["feedback"] = df.apply(lambda r: make_feedback(r, keyword=args.require_keyword), axis=1)
+```
+
+This way, the exported CSV has a feedback column you can import into Brightspace (or copy-paste into a feedback upload tool).
+
+# Example Outputs
+
+Student 1: one table, one figure, short reflection (45 words)
+
+```
+Notebook ran successfully (20/20). 
+One table found (10/20). Add a second table for full marks. 
+One figure found (10/20). Add a second figure for full marks. 
+Reflection adequate (20/40). Expand to 80+ words and mention 'uncertainty' for full marks.
+```
+
+Total: 60/100
+
+```
+Student 2: two tables, two figures, reflection 120 words w/ “uncertainty”
+Notebook ran successfully (20/20). 
+Two or more tables found (20/20). 
+Two or more figures found (20/20). 
+Reflection complete and meets all requirements (40/40).
+```
+
+Total: 100/100
+
+```
+Student 3: notebook fails to run
+Notebook did not run from top to bottom (0/20). 
+No tables found (0/20). Add at least one summary table. 
+No figures found (0/20). Include at least one visualization. 
+Reflection missing or too short (0/40).
+```
+
+Total: 0/100
+
+This keeps the system transparent, supportive, and fully autogradable — students know exactly why they lost points and what they’d need to do differently next time.
+

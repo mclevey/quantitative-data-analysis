@@ -1,0 +1,204 @@
+That’s a great instinct — you’ve built a **minimal viable grading system** (clear, simple, defensible), but now you’re asking: is it *too* minimal?
+
+Here’s a way to think about it:
+
+---
+
+## Why your current setup works
+
+* **Transparency:** students know exactly what to do.
+* **Low stress for you:** zero subjective judgment, zero manual grading.
+* **Pedagogical focus:** keeps the barrier to success low, encourages steady engagement.
+* **Defensible:** the 4-point contract is a clear rubric.
+
+This is *enough* if your main goal is engagement and practice. You’ve aligned grading with your philosophy: “do the work, get the grade.”
+
+---
+
+## What might feel “too easy”
+
+* The coarse bins (0, 25, 50, 75, 100) mean missing one element is a **big drop**. A student with a great project who forgot to add a reflection falls straight from 100 → 75.
+* Projects don’t differentiate between “bare minimum” and “good effort.” A student who writes 40 words of fluff = same as someone who writes a careful, thoughtful 200-word reflection.
+
+---
+
+## Options to Add a Little More Resolution (Without Adding Overhead)
+
+### 1. Split big items into sub-points
+
+Instead of 4 × 25%, make it **8 × 12.5%**, but still autogradeable:
+
+* **Runs** (0/12.5)
+* **2+ tables** (0/12.5 if fewer)
+* **2+ figures** (0/12.5 if fewer)
+* **Reflection present** (0/12.5)
+* **Reflection ≥80 words** (0/12.5)
+* **Reflection contains keyword** (0/12.5)
+* **Notebook length ≥10 cells** (0/12.5)
+* **Has meaningful column/axis labels** (0/12.5)
+
+That way, missing one element is a smaller penalty.
+
+---
+
+### 2. Use “partial credit” thresholds
+
+Keep 4 categories, but add *tiers*:
+
+* Figures: 0 = none, 10 = one, 20 = two+ (with labels).
+* Tables: 0 = none, 10 = one, 20 = two+ (with clear formatting).
+* Reflection: 0 = none, 10 = <80 words, 20 = ≥80 words (with keyword).
+* Run: 0 = fails, 20 = runs successfully.
+
+Now you get scores like 60, 70, 80, 90, 100 — much smoother.
+
+---
+
+### 3. Add an “effort bonus”
+
+Keep the simple 4 × 25% rubric, but allow a +10% “effort bonus” for going beyond minimum (detected automatically):
+
+* More than one figure **and** more than one table.
+* Reflection ≥100 words.
+* At least 15 cells executed.
+
+Students who put in extra effort are rewarded, but you don’t have to manually grade.
+
+---
+
+### 4. Do nothing (but reframe for students)
+
+You could also just **embrace the simplicity** and tell students:
+
+> “This is a contract. If you do these four things, you get 100%. If you miss one, you lose 25%. It’s coarse, but it’s fair. Do the work, and you get the grade.”
+
+Students may actually *like* the clarity — no hidden traps, no subjectivity.
+
+---
+
+## My recommendation
+
+If you’re worried it’s *too* easy, **Option 2 (partial credit thresholds)** is the sweet spot:
+
+* Keeps the grading script almost identical (just count how many tables/figures, reflection length).
+* Gives you finer resolution (increments of 10).
+* Still fully autogradable, no extra manual work.
+* Rewards students who do “more than the bare minimum.”
+
+---
+
+Perfect — here’s how to tweak the **lazy grader script** to support **partial credit thresholds** (Option 2). This way, you’ll still run one command, but instead of 0/25/50/75/100, students can earn **60, 70, 80, 90, 100** depending on effort.
+
+---
+
+## New Grading Rules (still autogradable)
+
+* **Run (20 pts)**
+
+  * 0 = notebook fails
+  * 20 = runs successfully
+
+* **Tables (20 pts)**
+
+  * 0 = none
+  * 10 = one table
+  * 20 = two or more tables
+
+* **Figures (20 pts)**
+
+  * 0 = none
+  * 10 = one figure
+  * 20 = two or more figures
+
+* **Reflection (40 pts)**
+
+  * 0 = none
+  * 20 = ≥40 words
+  * 40 = ≥80 words **and** contains the keyword `uncertainty` (for Projects 2 and 3)
+
+**Total = up to 100**
+This lets you give credit for partial effort and reward students who go beyond the minimum.
+
+---
+
+## Updated Script Snippet
+
+Replace your `grade_one()` in `lazy_grader.py` with this:
+
+```python
+def grade_one(path, timeout, keyword):
+    nb, ran, elapsed = run_notebook(path, timeout=timeout)
+    munid = extract_munid(nb, str(path))
+    figs, tables = (0,0)
+    refl_words = 0
+    refl_text = ""
+
+    if ran:
+        figs, tables = count_figures_and_tables(nb)
+        # longest markdown chunk as reflection
+        best = ""
+        for cell in nb.cells:
+            if cell.cell_type == "markdown":
+                text = (cell.source or "").strip()
+                if len(text.split()) > len(best.split()):
+                    best = text
+        refl_text = best
+        refl_words = len(best.split())
+
+    # Scores
+    run_score = 20 if ran else 0
+
+    if tables >= 2: table_score = 20
+    elif tables == 1: table_score = 10
+    else: table_score = 0
+
+    if figs >= 2: fig_score = 20
+    elif figs == 1: fig_score = 10
+    else: fig_score = 0
+
+    # Reflection scoring
+    if refl_words == 0:
+        refl_score = 0
+    elif refl_words >= 80 and (not keyword or keyword.lower() in refl_text.lower()):
+        refl_score = 40
+    elif refl_words >= 40:
+        refl_score = 20
+    else:
+        refl_score = 0
+
+    total = run_score + table_score + fig_score + refl_score
+
+    return {
+        "MUNID": munid,
+        "filename": Path(path).name,
+        "run_score": run_score,
+        "table_score": table_score,
+        "figure_score": fig_score,
+        "reflection_score": refl_score,
+        "total": total,
+        "runtime_sec": round(elapsed, 1),
+    }
+```
+
+---
+
+## Example Outcomes
+
+* Student runs notebook, adds **1 table**, **1 figure**, **45-word reflection** →
+  Run 20 + Table 10 + Figure 10 + Reflection 20 = **60%**
+
+* Student includes **2 tables**, **2 figures**, and **90-word reflection with “uncertainty”** →
+  Run 20 + Table 20 + Figure 20 + Reflection 40 = **100%**
+
+* Student skips reflection but has tables/figures →
+  Run 20 + Table 20 + Figure 20 + Reflection 0 = **60%**
+
+Much smoother than dropping from 100 → 75 in one go.
+
+---
+
+⚡ **Lazy bonus**: you don’t need to change anything else in the workflow. Same Brightspace import, same starter cell, same student instructions (except you can tell them: *“more effort = more points”*).
+
+---
+
+Do you want me to also rewrite the **student-facing rubric language** (Projects 1–3 handout + syllabus page) so it matches these new thresholds instead of the 0/25/50/75/100 bins?

@@ -1,0 +1,393 @@
+chapter_number,chapter_file,chapter_heading_number,overall_heading_number,heading_text,heading_level
+1,index.qmd,1,1,About {.unnumbered},1
+1,index.qmd,2,2,Overview,2
+1,index.qmd,3,3,Foundational Data Processing Skills,3
+1,index.qmd,4,4,Measurement and Latent Constructs,3
+1,index.qmd,5,5,Statistical Modelling and Inference,3
+1,index.qmd,6,6,Acknowledgments,2
+2,1-computing-with-python-and-colab.qmd,1,7,Learning Objectives,1
+2,1-computing-with-python-and-colab.qmd,2,8,Introduction,1
+2,1-computing-with-python-and-colab.qmd,3,9,Google Colab: Your Python Research Environment,1
+2,1-computing-with-python-and-colab.qmd,4,10,Getting Started with Colab,2
+2,1-computing-with-python-and-colab.qmd,5,11,Running Code in Colab,2
+2,1-computing-with-python-and-colab.qmd,6,12,Saving Your Work,2
+2,1-computing-with-python-and-colab.qmd,7,13,Basic Data Types and Expressions,1
+2,1-computing-with-python-and-colab.qmd,8,14,Measurement Scales: Foundations for Data Analysis,2
+2,1-computing-with-python-and-colab.qmd,9,15,Mathematical Expressions,2
+2,1-computing-with-python-and-colab.qmd,10,16,String Operations,2
+2,1-computing-with-python-and-colab.qmd,11,17,Variables and Assignment,1
+2,1-computing-with-python-and-colab.qmd,12,18,"Objects and Methods, Illustrated with Strings",1
+2,1-computing-with-python-and-colab.qmd,13,19,Changing Case,2
+2,1-computing-with-python-and-colab.qmd,14,20,Joining and Splitting Strings,2
+2,1-computing-with-python-and-colab.qmd,15,21,Removing Whitespace,2
+2,1-computing-with-python-and-colab.qmd,16,22,Putting Strings inside of Other Strings with the `.format()` Method and F-Strings,2
+2,1-computing-with-python-and-colab.qmd,17,23,Comparison and Control Flow,1
+2,1-computing-with-python-and-colab.qmd,18,24,"If, Elif, Else",2
+2,1-computing-with-python-and-colab.qmd,19,25,While Loops,2
+2,1-computing-with-python-and-colab.qmd,20,26,Combining Comparisons with Connectives,2
+2,1-computing-with-python-and-colab.qmd,21,27,Tracebacks,1
+2,1-computing-with-python-and-colab.qmd,22,28,`Try` / `Except`,2
+3,2-python-datatypes-structures.qmd,1,29,Learning Objectives,1
+3,2-python-datatypes-structures.qmd,2,30,Introduction,1
+3,2-python-datatypes-structures.qmd,3,31,Working with Python's Data Structures,1
+3,2-python-datatypes-structures.qmd,4,32,Lists and Tuples,1
+3,2-python-datatypes-structures.qmd,5,33,Looping over Lists,2
+3,2-python-datatypes-structures.qmd,6,34,Modifying Lists,2
+3,2-python-datatypes-structures.qmd,7,35,Zipping and Unzipping Lists,2
+3,2-python-datatypes-structures.qmd,8,36,List Comprehensions,2
+3,2-python-datatypes-structures.qmd,9,37,Copying Lists,2
+3,2-python-datatypes-structures.qmd,10,38,In or Not In?,3
+3,2-python-datatypes-structures.qmd,11,39,Using `enumerate`,2
+3,2-python-datatypes-structures.qmd,12,40,"Tuples, for when Your Lists Won't Change",2
+3,2-python-datatypes-structures.qmd,13,41,Dictionaries,1
+3,2-python-datatypes-structures.qmd,14,42,Nested Data Structures,2
+3,2-python-datatypes-structures.qmd,15,43,Lists of Dictionaries,2
+3,2-python-datatypes-structures.qmd,16,44,Functions and Classes as Data Processing Helpers,1
+3,2-python-datatypes-structures.qmd,17,45,Functions for Data Cleaning,2
+3,2-python-datatypes-structures.qmd,18,46,Classes for Organizing Player Data,2
+3,2-python-datatypes-structures.qmd,19,47,Working with Multiple Players,2
+3,2-python-datatypes-structures.qmd,20,48,Practical Processing Methods,2
+3,2-python-datatypes-structures.qmd,21,49,Data Uncertainty and Processing Challenges,1
+3,2-python-datatypes-structures.qmd,22,50,Types of Data Uncertainty,2
+3,2-python-datatypes-structures.qmd,23,51,Handling Missing Information,2
+3,2-python-datatypes-structures.qmd,24,52,Belief Updating through Data Gathering,2
+3,2-python-datatypes-structures.qmd,25,53,Connecting to Data Analysis Workflows,1
+3,2-python-datatypes-structures.qmd,26,54,From Lists to DataFrames,2
+3,2-python-datatypes-structures.qmd,27,55,Preparing for Web Scraping,2
+4,3-scraping-and-parsing-data.qmd,1,56,Learning Objectives,1
+4,3-scraping-and-parsing-data.qmd,2,57,Introduction to Web Scraping,1
+4,3-scraping-and-parsing-data.qmd,3,58,Module Overview,2
+4,3-scraping-and-parsing-data.qmd,4,59,Ethics and Legal Basics,2
+4,3-scraping-and-parsing-data.qmd,5,60,Essential Principles,3
+4,3-scraping-and-parsing-data.qmd,6,61,Quick Legal Summary,3
+4,3-scraping-and-parsing-data.qmd,7,62,HTML Essentials for Scraping,2
+4,3-scraping-and-parsing-data.qmd,8,63,Learning Web Scraping through WNBA Data,2
+4,3-scraping-and-parsing-data.qmd,9,64,Let's Scrape WNBA Data!,3
+4,3-scraping-and-parsing-data.qmd,10,65,Loading Static Websites with `requests`,3
+4,3-scraping-and-parsing-data.qmd,11,66,Parsing HTML with `BeautifulSoup`,3
+4,3-scraping-and-parsing-data.qmd,12,67,Extracting Text with `BeautifulSoup`,4
+4,3-scraping-and-parsing-data.qmd,13,68,Extracting Headers,4
+4,3-scraping-and-parsing-data.qmd,14,69,Extracting Body Text,4
+4,3-scraping-and-parsing-data.qmd,15,70,Extracting and Processing Links,4
+4,3-scraping-and-parsing-data.qmd,16,71,Creating a DataFrame from Links,5
+4,3-scraping-and-parsing-data.qmd,17,72,Extracting Primary Domains,5
+4,3-scraping-and-parsing-data.qmd,18,73,Extracting Tables,3
+4,3-scraping-and-parsing-data.qmd,19,74,Finding and Parsing Tables with `BeautifulSoup` and `Pandas`,4
+4,3-scraping-and-parsing-data.qmd,20,75,Cleaning up Extracted Tables,4
+4,3-scraping-and-parsing-data.qmd,21,76,Associating Tables with Dates,4
+4,3-scraping-and-parsing-data.qmd,22,77,"What Is the ""Life Evaluation"" Index?",2
+4,3-scraping-and-parsing-data.qmd,23,78,Visualization,4
+4,3-scraping-and-parsing-data.qmd,24,79,Example 2: Scraping Wikipedia Pages on WNBA Teams and Players,2
+4,3-scraping-and-parsing-data.qmd,25,80,Inspect the Source!,3
+4,3-scraping-and-parsing-data.qmd,26,81,Fetch the Wikipedia Page Content,3
+4,3-scraping-and-parsing-data.qmd,27,82,Extracting Team Roster Tables,3
+4,3-scraping-and-parsing-data.qmd,28,83,Parsing Individual Roster Tables,3
+4,3-scraping-and-parsing-data.qmd,29,84,Creating an Integrated DataFrame,3
+4,3-scraping-and-parsing-data.qmd,30,85,Preparing for the Next Module,1
+4,3-scraping-and-parsing-data.qmd,31,86,Scraping Text from Individual Player Wikipedia Pages,2
+4,3-scraping-and-parsing-data.qmd,32,87,Final Thoughts,2
+5,4-pandas-series-dataframes.qmd,1,88,Learning Objectives,1
+5,4-pandas-series-dataframes.qmd,2,89,Introduction,1
+5,4-pandas-series-dataframes.qmd,3,90,Loading Data,2
+5,4-pandas-series-dataframes.qmd,4,91,Loading Our WNBA Data from Chapter 3,3
+5,4-pandas-series-dataframes.qmd,5,92,"Working with Larger Social Science Data""}",3
+5,4-pandas-series-dataframes.qmd,6,93,DataFrame Metadata,2
+5,4-pandas-series-dataframes.qmd,7,94,Selecting Columns,2
+5,4-pandas-series-dataframes.qmd,8,95,"Heads, Tails, and Samples",2
+5,4-pandas-series-dataframes.qmd,9,96,Comparing Pandas Operations across Different Datasets,2
+5,4-pandas-series-dataframes.qmd,10,97,WNBA Data Exploration,3
+5,4-pandas-series-dataframes.qmd,11,98,Data Types Comparison,3
+5,4-pandas-series-dataframes.qmd,12,99,Writing Data to Disk,2
+5,4-pandas-series-dataframes.qmd,13,100,`Series`,1
+5,4-pandas-series-dataframes.qmd,14,101,Rows and Indexes,1
+5,4-pandas-series-dataframes.qmd,15,102,DataFrames,1
+5,4-pandas-series-dataframes.qmd,16,103,Missing Data,1
+5,4-pandas-series-dataframes.qmd,17,104,Aggregation & Grouped Operations,1
+5,4-pandas-series-dataframes.qmd,18,105,Dates and Times,1
+5,4-pandas-series-dataframes.qmd,19,106,Linking DataFrames,1
+5,4-pandas-series-dataframes.qmd,20,107,Concatenating DataFrames,2
+5,4-pandas-series-dataframes.qmd,21,108,Merging DataFrames,2
+5,4-pandas-series-dataframes.qmd,22,109,Record Linkage,2
+6,5-description-visualization-validation.qmd,1,110,Learning Outcomes,1
+6,5-description-visualization-validation.qmd,2,111,Introduction,1
+6,5-description-visualization-validation.qmd,3,112,Iterative Research Workflows: Eda and Box's Loop,1
+6,5-description-visualization-validation.qmd,4,113,Statistical Concepts as Model-Building Tools,2
+6,5-description-visualization-validation.qmd,5,114,Central Tendency: Modeling Typical Values,3
+6,5-description-visualization-validation.qmd,6,115,Dispersion: Modeling Variability,3
+6,5-description-visualization-validation.qmd,7,116,Visualization,1
+6,5-description-visualization-validation.qmd,8,117,Univariate Eda: Describing and Visualizing Distributions,1
+6,5-description-visualization-validation.qmd,9,118,Testing Our Model with Central Tendency and Dispersion,2
+6,5-description-visualization-validation.qmd,10,119,Simulation as Model Checking,3
+6,5-description-visualization-validation.qmd,11,120,Visualizing Causal Assumptions with DAGS,3
+6,5-description-visualization-validation.qmd,12,121,Visualizing Marginal Distributions,2
+6,5-description-visualization-validation.qmd,13,122,Count Plots and Frequency Tables for Categorical Variables,3
+6,5-description-visualization-validation.qmd,14,123,Univariate Histograms and Density Estimation,3
+6,5-description-visualization-validation.qmd,15,124,Marginal Empirical Cumulative Distributions,3
+6,5-description-visualization-validation.qmd,16,125,Plotting Empirical Cumulative Distributions,3
+6,5-description-visualization-validation.qmd,17,126,Multivariate Eda,1
+6,5-description-visualization-validation.qmd,18,127,Visualizing Conditional Distributions,2
+6,5-description-visualization-validation.qmd,19,128,Conditional Histograms,3
+6,5-description-visualization-validation.qmd,20,129,Conditional KDE,3
+6,5-description-visualization-validation.qmd,21,130,Conditional ECDS,3
+6,5-description-visualization-validation.qmd,22,131,Visualizing Joint Distributions,2
+6,5-description-visualization-validation.qmd,23,132,Cross Tables,3
+6,5-description-visualization-validation.qmd,24,133,Scatter Plots,3
+6,5-description-visualization-validation.qmd,25,134,Bivariate Histograms,3
+6,5-description-visualization-validation.qmd,26,135,Bivariate Kernel Density Estimation,3
+6,5-description-visualization-validation.qmd,27,136,Line of Best Fit,3
+6,5-description-visualization-validation.qmd,28,137,Correlation: Modeling Relationships between Variables,2
+6,5-description-visualization-validation.qmd,29,138,Testing Relationships between Democratic Dimensions,3
+6,5-description-visualization-validation.qmd,30,139,Correlation Coefficient: Pearson and Spearman,3
+6,5-description-visualization-validation.qmd,31,140,Correlation Matrices and Heatmaps,2
+6,5-description-visualization-validation.qmd,32,141,Visualization with More Informational Density,2
+6,5-description-visualization-validation.qmd,33,142,Layering Marginal and Joint Distributions,2
+6,5-description-visualization-validation.qmd,34,143,Quick Comparisons with Pair Plots,2
+6,5-description-visualization-validation.qmd,35,144,Conclusion,1
+6,5-description-visualization-validation.qmd,36,145,Key Points,2
+7,6-measuring-sentiment-emotion.qmd,1,146,Introduction: Measurement Challenges in the Digital Age,1
+7,6-measuring-sentiment-emotion.qmd,2,147,The Measurement Challenge: from Observations to Constructs,1
+7,6-measuring-sentiment-emotion.qmd,3,148,Measurement as Model-Building,2
+7,6-measuring-sentiment-emotion.qmd,4,149,Construct Validity in Text Analysis,2
+7,6-measuring-sentiment-emotion.qmd,5,150,The Latent Variable Perspective,2
+7,6-measuring-sentiment-emotion.qmd,6,151,Measurement Uncertainty and Error Propagation,2
+7,6-measuring-sentiment-emotion.qmd,7,152,Learning Objectives,1
+7,6-measuring-sentiment-emotion.qmd,8,153,Setup,1
+7,6-measuring-sentiment-emotion.qmd,9,154,Understanding Our NLP Pipeline,2
+7,6-measuring-sentiment-emotion.qmd,10,155,Take a Random Sample,1
+7,6-measuring-sentiment-emotion.qmd,11,156,The First Approach: Dictionary Methods,1
+7,6-measuring-sentiment-emotion.qmd,12,157,Measurement Philosophy: Transparent Rules,2
+7,6-measuring-sentiment-emotion.qmd,13,158,Measurement Philosophy: Epistemological Foundations,2
+7,6-measuring-sentiment-emotion.qmd,14,159,Where Meaning Resides: Theoretical Perspectives,2
+7,6-measuring-sentiment-emotion.qmd,15,160,Tokenization and Sentiment Scoring,1
+7,6-measuring-sentiment-emotion.qmd,16,161,Preprocessing Note,2
+7,6-measuring-sentiment-emotion.qmd,17,162,Aggregating Sentiment Scores,1
+7,6-measuring-sentiment-emotion.qmd,18,163,Visualizing Dictionary-Based Sentiment,1
+7,6-measuring-sentiment-emotion.qmd,19,164,The Second Approach: Vader (Dictionaries + Rules),1
+7,6-measuring-sentiment-emotion.qmd,20,165,Measurement Philosophy: Transparent Rules + Linguistic Context,2
+7,6-measuring-sentiment-emotion.qmd,21,166,Measurement Validation through Method Comparison,2
+7,6-measuring-sentiment-emotion.qmd,22,167,Explore VADER's Lexicon,1
+7,6-measuring-sentiment-emotion.qmd,23,168,How Much Confidence Do You Have in These Scores?,1
+7,6-measuring-sentiment-emotion.qmd,24,169,Computing Sentiment Scores with Vader,1
+7,6-measuring-sentiment-emotion.qmd,25,170,Comparison of Dictionary and Vader Sentiment Analysis,1
+7,6-measuring-sentiment-emotion.qmd,26,171,Comparing Lexicons,1
+7,6-measuring-sentiment-emotion.qmd,27,172,The Third Approach: Transformer-Based Sentiment Analysis,1
+7,6-measuring-sentiment-emotion.qmd,28,173,Measurement Philosophy: Learning from Data,2
+7,6-measuring-sentiment-emotion.qmd,29,174,Training Data and Measurement Validity,2
+7,6-measuring-sentiment-emotion.qmd,30,175,Applying the Transformer Model,1
+7,6-measuring-sentiment-emotion.qmd,31,176,Labelling Emotion Concepts,1
+7,6-measuring-sentiment-emotion.qmd,32,177,Measurement Implications and Next Steps,1
+7,6-measuring-sentiment-emotion.qmd,33,178,Measurement Uncertainty and Validation,2
+7,6-measuring-sentiment-emotion.qmd,34,179,From Measurement to Model-Building,2
+7,6-measuring-sentiment-emotion.qmd,35,180,The Measurement Trade-Off Triangle,2
+7,6-measuring-sentiment-emotion.qmd,36,181,Measurement Error and Uncertainty,2
+7,6-measuring-sentiment-emotion.qmd,37,182,Connecting to Broader Measurement Challenges,2
+7,6-measuring-sentiment-emotion.qmd,38,183,Preparing for Bayesian Measurement,2
+7,6-measuring-sentiment-emotion.qmd,39,184,Connecting to Bayesian Measurement Theory,2
+7,6-measuring-sentiment-emotion.qmd,40,185,Practical Implications for Social Science Research,2
+8,7-association-cultural-schemas-belief-networks.qmd,1,186,Introduction: from Measurement to Inference,1
+8,7-association-cultural-schemas-belief-networks.qmd,2,187,The Validation Problem,2
+8,7-association-cultural-schemas-belief-networks.qmd,3,188,Theoretical Foundations of Measurement Validation,1
+8,7-association-cultural-schemas-belief-networks.qmd,4,189,The Classical Test Theory Framework,2
+8,7-association-cultural-schemas-belief-networks.qmd,5,190,Types of Validity: a Comprehensive Framework,2
+8,7-association-cultural-schemas-belief-networks.qmd,6,191,Content Validity,3
+8,7-association-cultural-schemas-belief-networks.qmd,7,192,Face Validity,3
+8,7-association-cultural-schemas-belief-networks.qmd,8,193,Criterion Validity,3
+8,7-association-cultural-schemas-belief-networks.qmd,9,194,Convergent and Discriminant Validity,3
+8,7-association-cultural-schemas-belief-networks.qmd,10,195,Measurement Error: Sources and Consequences,2
+8,7-association-cultural-schemas-belief-networks.qmd,11,196,Systematic Error (Bias),3
+8,7-association-cultural-schemas-belief-networks.qmd,12,197,Random Error,3
+8,7-association-cultural-schemas-belief-networks.qmd,13,198,Error Propagation in Statistical Analysis,3
+8,7-association-cultural-schemas-belief-networks.qmd,14,199,Bayesian Perspectives on Measurement,2
+8,7-association-cultural-schemas-belief-networks.qmd,15,200,Evidence Accumulation and Multi-Method Integration,2
+8,7-association-cultural-schemas-belief-networks.qmd,16,201,Learning Objectives,2
+8,7-association-cultural-schemas-belief-networks.qmd,17,202,Case Study: Political Trust across Measurement Approaches,1
+8,7-association-cultural-schemas-belief-networks.qmd,18,203,Data Setup and Preparation,2
+8,7-association-cultural-schemas-belief-networks.qmd,19,204,Measurement Reliability: Internal Consistency,1
+8,7-association-cultural-schemas-belief-networks.qmd,20,205,Simulating Multiple Survey Items,2
+8,7-association-cultural-schemas-belief-networks.qmd,21,206,Measurement Validity: Cross-Method Validation,1
+8,7-association-cultural-schemas-belief-networks.qmd,22,207,Convergent Validity: Bayesian Correlation Analysis,2
+8,7-association-cultural-schemas-belief-networks.qmd,23,208,Implementing Bayesian Correlation,3
+8,7-association-cultural-schemas-belief-networks.qmd,24,209,Interpreting Bayesian Correlation Results,3
+8,7-association-cultural-schemas-belief-networks.qmd,25,210,Predictive Validity: Do Our Measures Predict Related Outcomes?,2
+8,7-association-cultural-schemas-belief-networks.qmd,26,211,Belief Networks: Mapping Construct Relationships,1
+8,7-association-cultural-schemas-belief-networks.qmd,27,212,Understanding Belief Networks through Correlations,2
+8,7-association-cultural-schemas-belief-networks.qmd,28,213,Theoretical Foundation,3
+8,7-association-cultural-schemas-belief-networks.qmd,29,214,Extracting Network Structure from Correlations,3
+8,7-association-cultural-schemas-belief-networks.qmd,30,215,Implications for Measurement Theory,3
+8,7-association-cultural-schemas-belief-networks.qmd,31,216,Advanced Network Analysis: Subgroup Differences,3
+8,7-association-cultural-schemas-belief-networks.qmd,32,217,Measurement Error and Uncertainty Quantification,1
+8,7-association-cultural-schemas-belief-networks.qmd,33,218,Understanding Measurement Error Patterns,2
+8,7-association-cultural-schemas-belief-networks.qmd,34,219,Incorporating Uncertainty from Text Analysis,2
+8,7-association-cultural-schemas-belief-networks.qmd,35,220,Confirmatory Factor Analysis: Testing Measurement Models,1
+8,7-association-cultural-schemas-belief-networks.qmd,36,221,From Exploratory to Confirmatory Analysis,2
+8,7-association-cultural-schemas-belief-networks.qmd,37,222,Theoretical Model: Single Latent Factor,3
+8,7-association-cultural-schemas-belief-networks.qmd,38,223,Interpreting Factor Analysis Results,3
+8,7-association-cultural-schemas-belief-networks.qmd,39,224,Connection to Item Response Theory,3
+8,7-association-cultural-schemas-belief-networks.qmd,40,225,Multi-Method Measurement Models,1
+8,7-association-cultural-schemas-belief-networks.qmd,41,226,Simple Averaging Vs. Weighted Combination,2
+8,7-association-cultural-schemas-belief-networks.qmd,42,227,Preparing for Bayesian Measurement Models,1
+8,7-association-cultural-schemas-belief-networks.qmd,43,228,From Fixed Scores to Probability Distributions,2
+8,7-association-cultural-schemas-belief-networks.qmd,44,229,Summary: from Measurement to Statistical Inference,1
+8,7-association-cultural-schemas-belief-networks.qmd,45,230,Key Measurement Insights,2
+8,7-association-cultural-schemas-belief-networks.qmd,46,231,Connecting to Bayesian Inference,2
+8,7-association-cultural-schemas-belief-networks.qmd,47,232,Methodological Implications,2
+8,7-association-cultural-schemas-belief-networks.qmd,48,233,Advanced Topics: Future Directions,2
+8,7-association-cultural-schemas-belief-networks.qmd,49,234,Measurement Invariance,3
+8,7-association-cultural-schemas-belief-networks.qmd,50,235,Dynamic Measurement Models,3
+8,7-association-cultural-schemas-belief-networks.qmd,51,236,Measurement Error Propagation,3
+9,8-latent-factors-item-response-democracy-autocracy.qmd,1,237,Problem Hook: How Do We Measure Democracy?,1
+9,8-latent-factors-item-response-democracy-autocracy.qmd,2,238,Learning Objectives,1
+9,8-latent-factors-item-response-democracy-autocracy.qmd,3,239,Introduction: from Classical to Modern Measurement,1
+9,8-latent-factors-item-response-democracy-autocracy.qmd,4,240,V-Dem Methodology: Reproducing Professional Democracy Measurement,1
+9,8-latent-factors-item-response-democracy-autocracy.qmd,5,241,Understanding V-Dem's Approach,2
+9,8-latent-factors-item-response-democracy-autocracy.qmd,6,242,Reproducing V-Dem's Logic,3
+9,8-latent-factors-item-response-democracy-autocracy.qmd,7,243,Simplified V-Dem Replication,3
+9,8-latent-factors-item-response-democracy-autocracy.qmd,8,244,Theoretical Justification for V-Dem's Approach,3
+9,8-latent-factors-item-response-democracy-autocracy.qmd,9,245,Setup and Data Preparation,1
+9,8-latent-factors-item-response-democracy-autocracy.qmd,10,246,Understanding Item Response Theory,1
+9,8-latent-factors-item-response-democracy-autocracy.qmd,11,247,The Measurement Challenge,2
+9,8-latent-factors-item-response-democracy-autocracy.qmd,12,248,The IRT Model: a Bayesian Perspective,2
+9,8-latent-factors-item-response-democracy-autocracy.qmd,13,249,IRT Vs. Classical Approaches,2
+9,8-latent-factors-item-response-democracy-autocracy.qmd,14,250,Theoretical Foundations: from Classical to Modern Measurement Theory,1
+9,8-latent-factors-item-response-democracy-autocracy.qmd,15,251,The Latent Variable Framework,2
+9,8-latent-factors-item-response-democracy-autocracy.qmd,16,252,Classical Test Theory Limitations,3
+9,8-latent-factors-item-response-democracy-autocracy.qmd,17,253,Item Response Theory Advantages,3
+9,8-latent-factors-item-response-democracy-autocracy.qmd,18,254,IRT Model Types and Democracy Measurement,2
+9,8-latent-factors-item-response-democracy-autocracy.qmd,19,255,Rasch Model (1-Parameter Logistic),3
+9,8-latent-factors-item-response-democracy-autocracy.qmd,20,256,2-Parameter Logistic Model,3
+9,8-latent-factors-item-response-democracy-autocracy.qmd,21,257,3-Parameter Model,3
+9,8-latent-factors-item-response-democracy-autocracy.qmd,22,258,Connecting IRT to Measurement Theory (Chapters 6-7),2
+9,8-latent-factors-item-response-democracy-autocracy.qmd,23,259,Construct Validity through IRT,3
+9,8-latent-factors-item-response-democracy-autocracy.qmd,24,260,Error Theory Integration,3
+9,8-latent-factors-item-response-democracy-autocracy.qmd,25,261,Bayesian Vs. Frequentist IRT,2
+9,8-latent-factors-item-response-democracy-autocracy.qmd,26,262,Frequentist Limitations,3
+9,8-latent-factors-item-response-democracy-autocracy.qmd,27,263,Bayesian Advantages,3
+9,8-latent-factors-item-response-democracy-autocracy.qmd,28,264,Item Information and Measurement Precision,2
+9,8-latent-factors-item-response-democracy-autocracy.qmd,29,265,Information Function Concept,3
+9,8-latent-factors-item-response-democracy-autocracy.qmd,30,266,Test Information Function,3
+9,8-latent-factors-item-response-democracy-autocracy.qmd,31,267,Implementing Bayesian IRT with PyMC,1
+9,8-latent-factors-item-response-democracy-autocracy.qmd,32,268,Interpreting IRT Results,1
+9,8-latent-factors-item-response-democracy-autocracy.qmd,33,269,Understanding Item Parameters,2
+9,8-latent-factors-item-response-democracy-autocracy.qmd,34,270,Understanding Country-Level Democracy Scores,2
+9,8-latent-factors-item-response-democracy-autocracy.qmd,35,271,Model Validation and Interpretation,1
+9,8-latent-factors-item-response-democracy-autocracy.qmd,36,272,Posterior Predictive Checks,2
+9,8-latent-factors-item-response-democracy-autocracy.qmd,37,273,Comparing with V-Dem's Official Democracy Index,2
+9,8-latent-factors-item-response-democracy-autocracy.qmd,38,274,Understanding IRT in the Context of V-Dem,1
+9,8-latent-factors-item-response-democracy-autocracy.qmd,39,275,Why V-Dem Uses IRT,2
+9,8-latent-factors-item-response-democracy-autocracy.qmd,40,276,Practical Applications,2
+9,8-latent-factors-item-response-democracy-autocracy.qmd,41,277,Extensions and Advanced Applications,1
+9,8-latent-factors-item-response-democracy-autocracy.qmd,42,278,Multidimensional IRT,2
+9,8-latent-factors-item-response-democracy-autocracy.qmd,43,279,Time-Varying IRT,2
+9,8-latent-factors-item-response-democracy-autocracy.qmd,44,280,Conclusion,1
+9,8-latent-factors-item-response-democracy-autocracy.qmd,45,281,Key Takeaways,2
+9,8-latent-factors-item-response-democracy-autocracy.qmd,46,282,Practical Implementation Guide for Researchers,2
+9,8-latent-factors-item-response-democracy-autocracy.qmd,47,283,Planning Your IRT Study,3
+9,8-latent-factors-item-response-democracy-autocracy.qmd,48,284,Common Pitfalls and Solutions,3
+9,8-latent-factors-item-response-democracy-autocracy.qmd,49,285,Software and Implementation Resources,3
+9,8-latent-factors-item-response-democracy-autocracy.qmd,50,286,Future Directions in Democracy Measurement,3
+10,9-uncertainty-inference-credibility.qmd,1,287,Problem Hook: Democracy Scores and Uncertainty,1
+10,9-uncertainty-inference-credibility.qmd,2,288,Learning Objectives,1
+10,9-uncertainty-inference-credibility.qmd,3,289,Introduction: from Measurement to Modeling,1
+10,9-uncertainty-inference-credibility.qmd,4,290,Setup: Probability as the Language of Uncertainty,1
+10,9-uncertainty-inference-credibility.qmd,5,291,Why We Need Probability,1
+10,9-uncertainty-inference-credibility.qmd,6,292,Probability as Quantified Uncertainty,1
+10,9-uncertainty-inference-credibility.qmd,7,293,The Bayesian Interpretation,2
+10,9-uncertainty-inference-credibility.qmd,8,294,Why Bayesian Approaches for Social Science,2
+10,9-uncertainty-inference-credibility.qmd,9,295,Foundational Probability Concepts,1
+10,9-uncertainty-inference-credibility.qmd,10,296,Random Variables and Distributions,2
+10,9-uncertainty-inference-credibility.qmd,11,297,Probability Distributions as Models,2
+10,9-uncertainty-inference-credibility.qmd,12,298,Parameters Vs. Data: What We Want to Learn Vs. What We Observe,2
+10,9-uncertainty-inference-credibility.qmd,13,299,Bayes' Theorem: Learning from Data,1
+10,9-uncertainty-inference-credibility.qmd,14,300,The Components of Bayes' Theorem,2
+10,9-uncertainty-inference-credibility.qmd,15,301,Prior Distribution P(θ),3
+10,9-uncertainty-inference-credibility.qmd,16,302,Likelihood P(data | Θ),3
+10,9-uncertainty-inference-credibility.qmd,17,303,Posterior Distribution P(θ | Data),3
+10,9-uncertainty-inference-credibility.qmd,18,304,Applying Bayesian Reasoning to Research,1
+10,9-uncertainty-inference-credibility.qmd,19,305,Example: Measuring Public Opinion,2
+10,9-uncertainty-inference-credibility.qmd,20,306,Connecting to Previous Chapters,2
+10,9-uncertainty-inference-credibility.qmd,21,307,Conclusion,1
+10,9-uncertainty-inference-credibility.qmd,22,308,Key Takeaways,2
+10,9-uncertainty-inference-credibility.qmd,23,309,Probability: a Primer,1
+10,9-uncertainty-inference-credibility.qmd,24,310,Learning Objectives,1
+10,9-uncertainty-inference-credibility.qmd,25,311,Learning Materials,1
+10,9-uncertainty-inference-credibility.qmd,26,312,Probability Essentials for Social Science,1
+10,9-uncertainty-inference-credibility.qmd,27,313,Imports,2
+10,9-uncertainty-inference-credibility.qmd,28,314,Foundational Concepts in Probability Theory,1
+10,9-uncertainty-inference-credibility.qmd,29,315,Probability Distributions and Likelihood Functions,1
+10,9-uncertainty-inference-credibility.qmd,30,316,"Discrete Distributions, Probability Mass Functions",2
+10,9-uncertainty-inference-credibility.qmd,31,317,Everything Is Equally Likely: the Uniform Distribution,3
+10,9-uncertainty-inference-credibility.qmd,32,318,The Bernoulli and Binomial Distributions,3
+10,9-uncertainty-inference-credibility.qmd,33,319,"Continuous DISTRIBUTIONS, Probability Density Functions",1
+10,9-uncertainty-inference-credibility.qmd,34,320,The Normal Distribution,2
+10,9-uncertainty-inference-credibility.qmd,35,321,The Exponential Distribution,3
+10,9-uncertainty-inference-credibility.qmd,36,322,Joint and Conditional Probabilities,1
+10,9-uncertainty-inference-credibility.qmd,37,323,Joint Probabilities,2
+10,9-uncertainty-inference-credibility.qmd,38,324,Conditional Probability,2
+10,9-uncertainty-inference-credibility.qmd,39,325,Bayesian Inference,1
+10,9-uncertainty-inference-credibility.qmd,40,326,Bayes' Theorem,2
+10,9-uncertainty-inference-credibility.qmd,41,327,Bayesian Application: Learning about Hypotheses,3
+10,9-uncertainty-inference-credibility.qmd,42,328,The Components of Bayes' Theorem:,2
+10,9-uncertainty-inference-credibility.qmd,43,329,"Prior Probability, or ""Priors""",3
+10,9-uncertainty-inference-credibility.qmd,44,330,Likelihood,3
+10,9-uncertainty-inference-credibility.qmd,45,331,The Normalizing Constant,3
+10,9-uncertainty-inference-credibility.qmd,46,332,Posterior Probability,1
+10,9-uncertainty-inference-credibility.qmd,47,333,Conclusion,1
+10,9-uncertainty-inference-credibility.qmd,48,334,Key Points,2
+11,10-statistical-inference-generative-models.qmd,1,335,Learning Objectives,1
+11,10-statistical-inference-generative-models.qmd,2,336,Introduction: from Probability to Statistical Models,1
+11,10-statistical-inference-generative-models.qmd,3,337,Why Generative Thinking Matters,2
+11,10-statistical-inference-generative-models.qmd,4,338,Building a Bayesian Regression Model,1
+11,10-statistical-inference-generative-models.qmd,5,339,"Playing the ""What's that?"" Game",2
+11,10-statistical-inference-generative-models.qmd,6,340,Introducing a Predictor: Media Freedom,2
+11,10-statistical-inference-generative-models.qmd,7,341,Interpreting the Results,2
+11,10-statistical-inference-generative-models.qmd,8,342,Model Validation with Posterior Predictive Checks,2
+11,10-statistical-inference-generative-models.qmd,9,343,How Sampling Algorithms Work,1
+11,10-statistical-inference-generative-models.qmd,10,344,The Challenge: Complex Posterior Landscapes,2
+11,10-statistical-inference-generative-models.qmd,11,345,Sampling Strategy: Markov Chains,2
+11,10-statistical-inference-generative-models.qmd,12,346,Common Sampling Algorithms,2
+11,10-statistical-inference-generative-models.qmd,13,347,From Models to Insights,1
+11,10-statistical-inference-generative-models.qmd,14,348,Connecting to Previous Chapters,2
+11,10-statistical-inference-generative-models.qmd,15,349,Key Takeaways,2
+12,11-regression-modelling.qmd,1,350,Learning Objectives,1
+12,11-regression-modelling.qmd,2,351,Learning Materials,1
+12,11-regression-modelling.qmd,3,352,Introduction: from Simple Models to Complex Reality,1
+12,11-regression-modelling.qmd,4,353,The Research Question and Measurement Challenges,2
+12,11-regression-modelling.qmd,5,354,Imports,2
+12,11-regression-modelling.qmd,6,355,Data,2
+12,11-regression-modelling.qmd,7,356,Checking and Cleaning the Data,2
+12,11-regression-modelling.qmd,8,357,"Standardize Data, Process Categoricals",3
+12,11-regression-modelling.qmd,9,358,Developing Our Bayesian Model,1
+12,11-regression-modelling.qmd,10,359,Making the Model with Pymc3,2
+12,11-regression-modelling.qmd,11,360,Context Management for Modelling with Pymc3,3
+12,11-regression-modelling.qmd,12,361,Specifying the Model in Pymc3,3
+12,11-regression-modelling.qmd,13,362,Prior Predictive Check,2
+12,11-regression-modelling.qmd,14,363,Running Our Model,2
+12,11-regression-modelling.qmd,15,364,Checking the Traceplot,2
+12,11-regression-modelling.qmd,16,365,Establishing Credible Intervals,2
+12,11-regression-modelling.qmd,17,366,Posterior Predictive Checks,2
+12,11-regression-modelling.qmd,18,367,Plotting Uncertainty,2
+12,11-regression-modelling.qmd,19,368,Conclusion: Building toward Hierarchical Models,1
+12,11-regression-modelling.qmd,20,369,Key Integration Points,2
+12,11-regression-modelling.qmd,21,370,Preparing for Chapter 12: Why We Need Hierarchical Models,2
+13,12-multilevel-models.qmd,1,371,Learning Objectives,1
+13,12-multilevel-models.qmd,2,372,Learning Materials,1
+13,12-multilevel-models.qmd,3,373,Introduction: from Individual Measurements to Group Patterns,1
+13,12-multilevel-models.qmd,4,374,Why Hierarchical Models Matter for Measurement and Inference,2
+13,12-multilevel-models.qmd,5,375,Imports,2
+13,12-multilevel-models.qmd,6,376,"SO, WHAT'S a Hierarchical MODEL?",1
+13,12-multilevel-models.qmd,7,377,Goldilocks and the Three Pools,1
+13,12-multilevel-models.qmd,8,378,Load Data,2
+13,12-multilevel-models.qmd,9,379,No Pooling Model,2
+13,12-multilevel-models.qmd,10,380,Partially Pooled Model,3
+13,12-multilevel-models.qmd,11,381,The Peril Is in the Priors,4
+13,12-multilevel-models.qmd,12,382,Informative Priors: a Spoonful of Information Makes the Sampler Calm Down,2
+13,12-multilevel-models.qmd,13,383,Shrinkage,2
+13,12-multilevel-models.qmd,14,384,Does the Model Fit? Posterior Predictive Plots,2
+13,12-multilevel-models.qmd,15,385,The Best Model Our Data Can Buy,1
+13,12-multilevel-models.qmd,16,386,The Fault in Our (LACK of) Stars,1
+13,12-multilevel-models.qmd,17,387,Conclusion: Completing the Measurement-to-Inference Journey,1
+13,12-multilevel-models.qmd,18,388,The Complete Methodological Toolkit,2
+13,12-multilevel-models.qmd,19,389,Key Methodological Insights,2
+13,12-multilevel-models.qmd,20,390,The Bayesian Mindset,2
+13,12-multilevel-models.qmd,21,391,Beyond This Book,2
+14,references.qmd,1,392,References {.unnumbered},1

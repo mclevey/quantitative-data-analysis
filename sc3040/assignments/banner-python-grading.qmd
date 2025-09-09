@@ -1,0 +1,81 @@
+Awesome—here’s the quickest, least-clicky way to get **scores + feedback** into Brightspace automatically.
+
+# Brightspace import with feedback (quick + safe)
+
+## 1) Do a one-time “sample export” to learn your exact headers
+
+Brightspace (D2L) uses **your grade item’s name** to form the CSV headers. The safest approach:
+
+1. Create the grade item (e.g., **“Project 2”**) in Grades.
+2. Go to **Grades → Enter Grades → Export**.
+3. **Key field:** choose *Org Defined ID* (or *Username* if that’s what your school uses).
+4. Select the grade item and **check the option to export comments/feedback** for that item (often labelled “Include comments”).
+5. Export a CSV.
+
+Open it—you’ll see exactly what column names D2L expects, e.g.:
+
+* `OrgDefinedId`
+* `Project 2 Points Grade`
+* `Project 2 End-of-Line Comments`  *(sometimes “Comments” or “Feedback”—use whatever your export shows)*
+
+## 2) Shape your grader output to match those headers
+
+Your grading script already produces `df` with columns like `MUNID`, `total`, and `feedback`. Do a tiny post-processing step so your CSV **exactly** matches the sample headers from step 1:
+
+```python
+# Example: adapt these three names to match YOUR exported CSV headers
+GRADE_ITEM = "Project 2"  # exactly as it appears in your gradebook
+ID_COL     = "OrgDefinedId"  # or "Username" if that’s your institution’s key
+
+out = df.rename(columns={
+    "MUNID": ID_COL
+})[[ID_COL, "total", "feedback"]].copy()
+
+out.rename(columns={
+    "total":   f"{GRADE_ITEM} Points Grade",
+    "feedback": f"{GRADE_ITEM} End-of-Line Comments"  # use your export’s exact text
+}, inplace=True)
+
+out.to_csv("brightspace_import_proj2.csv", index=False)
+```
+
+Tip: keep one **template per grade item** (Proj1/Proj2/Proj3) so you don’t have to retype names.
+
+## 3) Import it
+
+* **Grades → Enter Grades → Import → CSV**
+* Upload `brightspace_import_proj2.csv`
+* Confirm the mapping preview (it should auto-match if headers are exact).
+* Finish import. Students see both the **score** and your **one-line feedback** instantly.
+
+---
+
+## Troubleshooting & tips
+
+* **Wrong key field?** If your institution uses *Username* instead of *Org Defined ID*, just rename `MUNID` to `Username` and ensure your rows match the LMS usernames exactly.
+* **Comments column name differs?** Always trust the wording from your **sample export**. D2L varies by institution/skin (e.g., “End-of-Line Comments”, “Feedback”, “Comments”).
+* **Long feedback**: Keep it short (1–2 sentences). D2L accepts long comments, but short is cleaner and imports faster.
+* **Re-imports are safe**: You can import again to overwrite scores/comments if you regrade.
+* **Multiple items at once**: You can combine several grade items in one CSV (multiple pairs of `X Points Grade` + `X End-of-Line Comments` columns), but simpler is one item per file.
+
+---
+
+## Optional: auto-generate a Brightspace-ready file per project
+
+Add this tiny helper to your grader so it emits the import file in one shot:
+
+```python
+def to_brightspace(df, grade_item, id_col_name, path):
+    out = df.rename(columns={"MUNID": id_col_name})[[id_col_name, "total", "feedback"]].copy()
+    out.rename(columns={
+        "total":    f"{grade_item} Points Grade",
+        "feedback": f"{grade_item} End-of-Line Comments"
+    }, inplace=True)
+    out.to_csv(path, index=False)
+    return path
+
+# Example call:
+to_brightspace(df, grade_item="Project 2", id_col_name="OrgDefinedId", path="brightspace_import_proj2.csv")
+```
+
+That’s it—you’ll import grades **and** feedback with two clicks, no manual typing.
