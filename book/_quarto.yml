@@ -1,0 +1,119 @@
+project:
+  type: book
+  output-dir: ../docs
+
+book:
+  title: Quantitative Social Science
+  subtitle: "Core Concepts, Skills, and Stories"
+  abstract: |
+    This is a draft manuscript and open access course materials for Sociology/Criminology 3040 at Memorial University. The book covers core concepts, skills, and stories in quantitative social science, including data collection, processing, description, measurement, and inference.
+  chapters:
+  - index.qmd # IT'S DONE! MOVE ON
+  - introduction.qmd # IT'S DONE! MOVE ON!
+  - part: MODULE 1 - DATA
+    chapters:
+    - 1-data-collection.qmd # IT'S DONE! MOVE ON!
+    - 2-data-processing.qmd
+    - 3-data-description.qmd
+  - part: MODULE 2 - MEASUREMENT
+    chapters:
+    - 4-measuring-sentiment-emotion.qmd
+    - 5-measuring-political-opinion-beliefs.qmd
+    - 6-measuring-democracy-autocracy.qmd
+  - part: MODULE 3 - INFERENCE
+    chapters:
+    - 7-statistical-models.qmd
+    - 8-association-and-regression.qmd
+    - 9-generalized-and-multilevel.qmd
+  - references.qmd
+
+bibliography: references.bib
+
+execute:
+  python: ../.pixi/envs/default/bin/python
+  eval: true
+  echo: true
+  cache: false
+  warning: false
+  message: false
+  keep-md: false
+  dpi: 300
+
+render:
+  files:
+  - "*.qmd"
+  exclude:
+  - "**/*.md"
+  - "**/notes/**"
+  - "**/prompts/**"
+  - "**/revision-notes/**"
+  - "**/backups/**"
+  - "**/data/**"
+
+format:
+  html:
+    self-contained: false
+    embed-resources: false
+    lightbox: true
+
+    author:
+    - name: John McLevey (he/him)
+      affiliation: Sociology, Memorial University
+      email: mclevey@mun.ca
+    subtitle: "Quantitative Social Science: Core Concepts, Skills, and Stories<br>Draft manuscript and open access course materials for Sociology/Criminology 3040"
+
+    toc: true
+    toc-title: "&nbsp;"
+    number-sections: true
+    published-title: Last Updated
+    smooth-scroll: true
+
+    author-title: "&nbsp;"
+    affiliation-title: "&nbsp;"
+
+    title-block-author: false
+    title-block-layout: horizontal
+    title-block-banner: "#2F4F4F"
+
+    code-copy: true
+    code-fold: false
+    code-tools:
+      source: false
+      toggle: false
+
+    margin-references: true
+    margin-comments: false
+
+    theme:
+    - cosmo
+    css: styles.css
+    font:
+      google:
+        families:
+        - Montserrat
+        - Inter
+
+    fig-width: 10
+    fig-height: 6
+    fig-dpi: 300
+    fig-format: png
+    fig-align: center
+    fig-cap-location: bottom
+
+    html-math-method: mathjax
+    mathjax:
+      mathjax-url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+      loader:
+        load: [ '[tex]/ams', '[tex]/newcommand', '[tex]/configmacros' ]
+      tex:
+        inlineMath: [ [ '$', '$' ], [ '\\(', '\\)' ] ]
+        displayMath: [ [ '$$', '$$' ], [ '\\[', '\\]' ] ]
+        processEscapes: true
+        processEnvironments: true
+        packages: { '[+]': [ 'ams', 'newcommand', 'configmacros' ] }
+        macros:
+          "\\RR": "\\mathbb{R}"
+          "\\NN": "\\mathbb{N}"
+          "\\ZZ": "\\mathbb{Z}"
+          "\\QQ": "\\mathbb{Q}"
+          "\\CC": "\\mathbb{C}"

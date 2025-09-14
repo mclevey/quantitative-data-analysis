@@ -1,0 +1,245 @@
+# Introduction {.unnumbered}
+
+## Book ↔ Course Connections
+
+Both the book and the course move through three big arcs that build on one another. We start with **Module 1**, where you learn to find, clean, and describe data while picking up practical Python. Then **Module 2** turns to measurement—how we represent things we care about (like attitudes or trust) that we can't observe directly. Finally, **Module 3** introduces statistical modelling and inference from a modern, generative point of view, so you can ask and answer substantive questions with uncertainty in mind.
+
+Each module spans roughly three weeks and includes three interactive chapters/notebooks you can open in your browser. You'll write code, make graphs, and explain your thinking in the same place. At the end of each module, you'll complete an assignment that brings the skills together in a realistic mini-project.
+
+### Module 1: Collecting, Processing, and Describing Data
+
+We begin by putting Python to work on real research tasks. Rather than learning programming in isolation, you'll use it to answer concrete questions. You'll pick up the essentials—variables, data types, functions—and then immediately apply them to genuine data activities, like scraping Canadian election polling tables from Wikipedia. Along the way, you'll practice with strings, lists, and dictionaries, and get comfortable reading simple HTML so you can extract what you need.
+
+As your datasets become usable, we'll shift into describing them clearly. You'll compute and interpret measures such as means and medians, explore variability, and make visualizations that help you see structure and spot oddities. You'll also get a feel for the practical side of data work: handling missing values, dealing with outliers, and making sensible transformations. By the end of this module, you'll be able to take a messy table you find online and turn it into clean summaries and plots that actually say something.
+
+### Module 2: Measurement and Latent Constructs
+
+Next we tackle a fundamental challenge in social science: measuring things we care about but can't observe directly. You'll learn classic ideas about measurement scales (nominal, ordinal, interval, ratio) and how reliability and validity shape whether a measure is any good. We'll ground this with a case study in text: how to measure sentiment or emotion in documents, and what can go wrong.
+
+From there, we'll study relationships between variables with correlation, and use survey data to think about cultural schemas and belief systems—why different groups might respond differently to the same question. We'll finish by fitting formal measurement models, including Classical Test Theory (CTT) and Item Response Theory (IRT). Using V-DEM expert surveys as a running example, you'll see how we can model concepts like democracy and autocracy as latent constructs and evaluate whether our measures behave as intended.
+
+### Module 3: Statistical Modelling and Inference
+
+In the final arc, we move from describing patterns to drawing conclusions under uncertainty. We'll take a gentle path into Bayesian reasoning—priors, posteriors, and the idea that uncertainty is a feature, not a bug. You'll start with simple, interpretable models, then build to bivariate analysis (correlation and simple regression) using a probabilistic lens. We'll revisit cultural schemas and measurement decisions to show how they feed into modelling choices.
+
+The module ends with an introduction to multiple regression and logistic regression. You'll learn how to specify a model, fit it, interpret it (carefully!), and check whether it makes sense for the data at hand. Applications will draw on public opinion and polling, so you can see how modelling connects to real debates. The goal isn't to memorize formulas; it's to build a habit of asking good questions, fitting models intentionally and purposefully, and communicating what we know (and what we don't).
+
+
+::: {.callout-note title="Note for Sociology/Criminology 3040 Students" appearance="simple" collapse="false"}
+Your assigned introductory reading is Chapter 1 of @alexander2023telling, available free [here](https://tellingstorieswithdata.com/). In *Telling Stories with Data*, Rohan @alexander2023telling proposes a simple cycle for doing credible, useful data work: **plan, simulate, acquire, explore/analyze, share**. Below is a overview of that workflow, which we'll reuse throughout the course. It's followed by a guided introduction to Google Colab, where we'll run our first bit of Python code together.
+:::
+
+## Telling Stories with Data
+
+::: {.float-left}
+![@alexander2023telling](media/rh-telling-stories-with-data.png){.lightbox width=20%}
+:::
+
+@alexander2023telling frames data‐analysis and statistics not as technical exercises but as *storytelling*: telling something convincing, communicating with others about what a dataset reveals (and hides). The introductory chapter establishes foundations: what it means to make the world into data; what ethical, measurement, and communicative constraints attend doing so; and how the entire process of turning raw observations into communicated insight involves many decisions.
+
+He then introduces a five‐step workflow for telling stories with data:
+
+1. **Plan** and sketch an endpoint
+2. **Simulate** and consider that simulated data
+3. **Acquire** and prepare the actual data
+4. **Explore** and understand the actual data
+5. **Share** what was done and what was found
+
+Additionally, he sets out a set of foundational elements (ethics, reproducibility, etc.), and underscores that communication is central; clarity always beats complexity if the complex analysis is not understandable or persuasive.
+
+Alexander emphasizes that datasets are simplifications of the messy, complex world; measurement, collection, cleaning, modeling decisions all matter. Knowing what's missing, what's poorly measured, where bias can creep in, etc., is part of being able to tell a credible story. But what does he mean by "stories" in this context, and how is data analysis like storytelling?
+
+When Alexander talks about "stories" in this context, he means structured, reasoned account, not fiction or narrative in the sense of novel or myth. Stories here help an audience understand what can and can't be said with the data, why those findings matter, and how they were obtained.
+
+In this sense, "stories with data" are best understood as arguments or explanations that are grounded in empirical evidence but structured in ways that resemble the elements of a traditional story. Every analysis begins with a **setting**, which establishes the dataset itself, including where it came from, how it was collected, and what broader phenomenon it represents. Within this setting, there are **characters or agents**: the people, institutions, and processes that generate the data, as well as those who are represented in it or excluded from it. 
+
+The analysis then unfolds like a **plot**, moving through a sequence of steps in which questions are posed, decisions are made, and discoveries emerge, often accompanied by surprises or tensions. Inevitably, there is **conflict or uncertainty**, expressed through measurement error, missing values, bias, and the trade-offs analysts must make while cleaning and modeling data. Finally, every data story must reach some form of **resolution**, in which findings are presented, claims are carefully bounded, and the limits of what the data can support are made clear. 
+
+In this sense, "telling stories with data" means constructing an arc that moves from raw data to insight, being explicit about the choices and reasoning that shape the analysis, and communicating in a way that allows an audience to follow the process and trust the outcome.
+
+
+## How Quantitative Data Analysis is Like Storytelling
+
+Alexander draws several analogies between data analysis and storytelling:
+
+**Structure and Purpose**: Just as stories have a structure (setup, conflict, resolution), a data project has structure: aim/question, method, results, interpretation, limits. He stresses starting with a plan (sketching the endpoint) so the analysis does not wander without purpose.
+
+**Audience & Persuasion**: A story is designed for an audience. Similarly, data‐analysis must consider who the audience is, what they know, what they will find credible, what they need explained. Persuasiveness matters! it's not enough that you discover something; it has to be credible and you have to be able to convince others.
+
+**Decisions and Tension**: Stories often have surprises, choices, trade‐offs. So do data analyses. Deciding what to measure, how to clean data, which model to use, how to interpret results—all involve trade-offs. The "messiness" of the world comes in: missing data, measurement error, ethical constraints. These are the tension/conflict in the story that make it interesting and trustworthy.
+
+**Clarity / Narrative Arc**: Just as good stories take the audience through stages in a way that they can follow and be engaged, good data‐stories guide the audience—show what was known, what questions were asked, what methods used, what was found, what is uncertain. Without clarity (narrative arc), the audience may get lost or distrust the claims.
+
+**Ethics, Context, and Who is Represented**: Good storytelling is not just about entertaining, but about responsibility. Whose perspective is told or excluded? What is left out? Data stories require the same: understanding what the data omit, which voices or groups are missing; what assumptions underlie measurement; being transparent about limitations.
+
+Alexander is not saying that data analysis is literally writing fiction, but that many of the same principles (structure, audience, tension, clarity, ethical responsibility) are essential if your work is to be persuasive, credible, and useful. To that end, he proposes an iterative storytelling **workflow**, summarized in @fig-storytelling-workflow, with five core components, and also identifies a set of foundational elements that support the workflow.
+
+![@alexander2023telling proposes a workflow for "telling stories with data" with these five components. Despite the presentation, this workflow is **iterative, not linear**.](dags/png/rohan-data-storytelling.png){#fig-storytelling-workflow width=100%}
+
+<!-- 
+See _storytelling_framework_cheatsheet.md
+ -->
+
+We begin with a **plan**. Planning doesn't mean knowing everything in advance; it means sketching the question, the likely form of evidence, and a rough idea of what a useful "finished" output could look like. Start by thinking about what you want the final story or endpoint to be. What questions do you want to answer? What claims might you hope to make? 
+
+Planning can be minimal and your endpoint may change. No problem! Having an initial target will still help you make better decisions along the way and will help you avoid **scope creep**.
+
+Before we tangle with messy real-world data, we often **simulate** small, made-up datasets that approximate what we expect in terms of data types, distributions, structure. Simulation lets us "rehearse" our approach: does our code work the way we think it does? Do our models behave sensibly on data where we know the truth? Practicing on tiny, controlled examples builds intuition and helps us catch issues early, when they're cheap to fix.
+
+**Acquiring** data is where most of the hard choices and work live. Sometimes we don't have enough observations and sometimes we have far too many. Those observations may or may not focus on things we are about. Data may be in different formats, have ambiguous variables, or plenty of missing values. The decisions you make here (what to include, how to clean, how to define variables) shape everything downstream.
+
+With data in hand, we **explore and analyze**. Start with straightforward summaries and visualizations ("Exploratory Data Analysis (EDA)"). Then, when it helps, bring in statistical models. Models are powerful tools, not truth machines. They organize our thinking, but they always rest on our choices about measurement and preparation [@mcelreath2018statistical]. Good analysis is iterative: look, think, model, check, revise.
+
+Finally, we **share**. Clear communication is part of the research itself, not an optional extra. Document what you did and why, present what you found, and be open about limitations as well as strengths. Use graphs, tables, and narrative, but also your code, data (where appropriate), and so on so others can see exactly what you did. Be transparent about who is included and who excluded, about measurement issues, and about limitations and biases in your approach. Transparency builds trust and makes your work useful to others.
+
+To help see how these pieces fit together, @tbl-storytelling-framework maps storytelling elements to components of data analysis. In short, when Alexander says data analysis is like storytelling, he means that it involves constructing a narrative through data: not simply reporting numbers, but setting up a problem, exploring it, confronting difficulties, and arriving at conclusions. It's transparently showing how you got there so that readers can follow, be persuaded, and understand the strengths and limitations. Telling good stories with data is hard and rewarding. You'll make mistakes, because that's part of learning. Aim for openness and steady improvement, not perfection.
+
+::: {.column-body-outset}
+| Storytelling Element              | Analogue in Data Analysis / Data Story                                                                                                            |
+|:----------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Setting / Background**          | The data source, how data were collected; why the dataset exists; the measurement etc.                                                            |
+| **Characters / Agents**           | The processes and people who produce the data; those represented in data; those left out.                                                         |
+| **Plot / Sequence**               | The workflow steps: question → measurement → cleaning → modeling → communicating. The sequence of decisions and discoveries made during analysis. |
+| **Conflict / Tension / Surprise** | Data defects, bias, missing parts; unexpected patterns or anomalies; trade-offs; uncertainty.                                                     |
+| **Resolutions / Conclusions**     | What findings can be asserted; what claims are supported; what remains uncertain.                                                                 |
+| **Audience & Purpose**            | Who the story is for; what claims or changes you hope to motivate; what understanding you hope to impart.                                         |
+
+: Understanding Alexander's analogy by mapping storytelling elements to data analysis components {#tbl-storytelling-framework tbl-colwidths="[30,70]"}
+:::
+
+In short, Alexander's point is not that analysis is fiction, but that it is narrative: a structured, ethically informed, and persuasive account of how we move from messy, incomplete observations to provisional insights. Telling stories with data requires rigor and transparency, but also clarity and creativity.
+
+# Getting Started with Python and Google Colab
+
+## Research Computing
+
+To do research with data, we need a place to work. In this course, it's **Google Colab**. Think of Colab as a free, online workbench: you open it in your browser, and it gives you a ready-to-use Python environment without any installation headaches. Because Colab runs in the cloud, everyone gets the same setup, and your work saves to your Google Drive.
+
+::: {.callout-note appearance="simple" collapse="false"}
+## What is Research Computing?
+**Research computing** involves using specialized computer software to support systematic **primary research**, for example collecting data, cleaning and organizing data, simulating theories, fitting models, and communicating results. It blends technical skills (like programming and data management) with substantive and theoretical knowledge from fields like sociology and criminology to answer meaningful research questions and deepen our understanding of the world in some way.
+
+In this course, we'll use **Python** as our main tool for research computing. We'll run our Python code in **Google Colab**, a free, cloud-based platform that lets you write and execute Python in your web browser without needing to install anything on your computer. It's like Google Docs, but for coding and data analysis.
+:::
+
+Let's open your first notebook together. In your browser, go to [colab.research.google.com] and sign in. Click **New notebook**. Colab will open a blank document with a name like *Untitled.ipynb*. Rename it to something like `SOCI3040-FirstName-LastName.ipynb` so you can find it later. Colab autosaves to your Google Drive, so you don't need to worry about losing work.
+
+A notebook is made of **cells**. Some cells are for **code** and contain Python code you can run. Others are for **text** (explanations, notes, section headings). This mix is what makes notebooks so useful in research: your reasoning and your analysis live side by side. When you (or anyone else) return later, the logic is visible.
+
+### Text and Code in Colab
+
+Try adding a text cell first. Click **+ Text** and type a short heading like "My first notebook." You can format text with **Markdown**, which is a simple way to make headers, lists, links, and emphasis without a heavy editor. For example, starting a line with `#` makes a big header, `##` a smaller one, and surrounding words with `**` makes them **bold**.
+
+Here's a **small Markdown example**. Paste into a text cell to see how formatting works:
+
+```markdown
+# My Title
+
+## A smaller heading
+
+This is **bold** and this is *italic*.
+Here is a [link](https://mun.ca).
+```
+
+If the formatting doesn't appear at first, make sure you created a **Text** cell (not a Code cell).
+
+Now add a code cell with **+ Code**. Type:
+
+```{python}
+print("Hello and welcome to Sociology/Criminology 3040: Quantitative Research Methods!")
+```
+
+Press **Shift + Enter**. You should see the message printed just below the cell. That's the full loop: **write code → run it → inspect the output**. 
+
+If you ever see an error, don't panic. You can read it slowly to figure out exactly where things went wrong, but it's also okay to ask Gemini (since we're using Colab) or another GenAI for help in understanding the error message (or "Traceback."). You can and should do this in a way that helps you learn, not just mindlessly copy-paste. Ask the AI for clear and simple explanations tailored to your current level of understanding, and then try to understand and apply the answer.
+
+You can run a code cell by clicking the little **play** button on its left edge. Keyboard shortcuts help when you're in a flow: **Shift + Enter** runs the current cell and moves to the next; **Ctrl/Cmd + Enter** runs the current cell and stays there. If a cell takes a while, you'll see a spinner. Feel free to keep reading while it finishes!
+
+Let's introduce a few Python ideas we'll use constantly.
+
+## Basic Data Types and Expressions
+
+Every value in Python has a type. For now, three types are enough to begin:
+
+* **Integers** are whole numbers, like `42`.
+* **Floats** are numbers with decimals, like `42.0`.
+* **Strings** are text, wrapped in quotes, like `"Quinn and Nora are obsessed with cats!"`.
+
+You can use either single quotes `' '` or double quotes `" "` for strings. Pick whichever makes the text inside easier. For instance:
+
+```{python}
+"That's correct."
+'The cat says "yep, that is correct."'
+```
+
+### Mathematical Expressions
+
+Python can act like a calculator. An **expression** combines values with operators:
+
+```{python}
+2 + 2
+2 * 9
+10 / 2
+2 + 9 * 7  # follows normal order of operations
+```
+
+If you want to control the order, use parentheses: `(2 + 9) * 7`.
+
+### String Operations
+
+The same operators can mean different things with strings. With text, `+` means **concatenate** (join):
+
+```{python}
+print('Data analysis' + ' can be exciting!)')
+```
+
+If you mix numbers and strings, you'll need to convert the number to text:
+
+```{python}
+# str( ) converts a number to a string
+str(42) + ' is the answer'
+```
+
+You can also "multiply" a string by an integer to repeat it:
+
+```{python}
+'Sociology/Criminology ' * 3
+```
+
+### Variables and Assignment
+
+A **variable** is a name you give to a value so you can refer to it later, like putting something in a labeled container. The assignment operator `=` stores a value in that name:
+
+```{python}
+a_number = 16
+print(a_number)
+a_number * a_number
+```
+
+Choose variable names that describe what they hold. `last_name` is better than `ln`. It makes your code easier to read, especially when you return to it next week or share it with a classmate.
+
+Here's a small example that builds a sentence from pieces:
+
+```{python}
+city = 'Cologne'
+country = 'Germany'
+sentence = city + ' is the fourth-most populous city in ' + country + '.'
+print(sentence)
+```
+
+## Good Habits for Credible, Reproducible Research
+
+Good habits might feel fussy at first, but they're what turn a one-off analysis into a trustworthy research product. Keep notebooks readable by mixing code and explanation. Give files and variables clear names. When you think you're done, use **Runtime → Restart and run all** to check that everything works from a clean start. If it does, your future self will thank you.
+
+## Saving and Downloading Your Work
+
+Colab autosaves to your Google Drive, so you won't lose work if your browser closes. You can also share a notebook with a link, just like a Google Doc. You can also download your notebook in different formats via **File → Download**. The `.ipynb` format is the standard Jupyter notebook file, which preserves both code and output. The `.py` format is a plain Python script that contains only the code.
+
+::: {.callout-note title="Note for Sociology/Criminology 3040 Students" appearance="simple" collapse="false"}
+When you need to submit something to Brightspace, download it via **File → Download** as a `.ipynb` (Jupyter notebook) **and** a `.py` (plain Python script). Submit both files together in the Brightspace assignment dropbox.
+:::
+
+<!-- 
+## What we'll do next 
+-->
+

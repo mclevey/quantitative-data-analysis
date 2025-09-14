@@ -1,0 +1,199 @@
+/* Make title, subtitle, author, date, and abstract white in the purple header */
+#title-block-header h1.title,
+#title-block-header .subtitle,
+#title-block-header .author,
+#title-block-header .affiliation,
+#title-block-header .date,
+#title-block-header .abstract,
+#title-block-header .abstract *,
+#title-block-header .quarto-title-author,
+#title-block-header .quarto-title-author-name,
+#title-block-header .quarto-title-author-email,
+#title-block-header .quarto-title-publish-date,
+#title-block-header .quarto-title-meta-heading,
+#title-block-header .quarto-title-meta-contents,
+#title-block-header .quarto-title-meta-contents *,
+#title-block-header .quarto-title-meta,
+#title-block-header .quarto-title-meta * {
+    color: #ECEFF4 !important;
+}
+
+
+/* Ensure the green background spans edge-to-edge */
+
+#title-block-header {
+    background-color: #2F4F4F !important;
+    margin: 0 -1rem !important;
+    padding: 1em 1rem !important;
+}
+
+/* Make the title block header a bit bigger */
+#title-block-header h1.title {
+    font-size: 3em !important;
+}
+
+/* Make all headings purple */
+h1, h2, h3, h4, h5, h6 {
+    color: #2F4F4F !important;
+}
+
+/* Make bold text purple */
+strong, b {
+    color: #2F4F4F !important;
+}
+
+/* Make italicized text purple */
+em, i {
+    color: #2F4F4F !important;
+}
+
+/* Make links purple */
+a, a:visited {
+    color: #2F4F4F !important;
+}
+
+a:hover, a:focus {
+    color: #2f2f48 !important;
+}
+
+/* Callout styles */
+.callout {
+    margin: 1em 0;
+    padding: 1em;
+    border-left: 4px solid;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+}
+
+.callout-info {
+    border-left-color: #17a2b8;
+    background-color: #d1ecf1;
+}
+
+.callout-title {
+    font-weight: bold;
+    margin-bottom: 0.5em;
+    color: #0c5460;
+}
+
+/* Wide table styles for better horizontal space usage */
+.column-screen-inset table,
+.column-screen table,
+.column-page table {
+    width: 100% !important;
+    font-size: 0.85em;
+    overflow-x: auto;
+    display: block;
+    white-space: nowrap;
+}
+
+.column-screen-inset table tbody,
+.column-screen table tbody,
+.column-page table tbody {
+    display: table;
+    width: 100%;
+}
+
+/* Improve readability of wide tables */
+.column-screen-inset table th,
+.column-screen table th,
+.column-page table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    padding: 8px 12px;
+    border-bottom: 2px solid #2F4F4F;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.column-screen-inset table td,
+.column-screen table td,
+.column-page table td {
+    padding: 6px 12px;
+    border-bottom: 1px solid #dee2e6;
+    white-space: nowrap;
+}
+
+/* Alternating row colors for better readability */
+.column-screen-inset table tr:nth-child(even),
+.column-screen table tr:nth-child(even),
+.column-page table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+/* Responsive table wrapper */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Text wrapping around images - simpler approach */
+.float-left {
+    float: left !important;
+    margin: 0 2em 1em 0 !important;
+    clear: left;
+    width: auto !important;
+    max-width: 50% !important;
+}
+
+.float-right {
+    float: right !important;
+    margin: 0 0 1em 2em !important;
+    clear: right;
+    width: auto !important;
+    max-width: 50% !important;
+}
+
+/* Legacy support for quarto-figure classes */
+figure.quarto-figure-left,
+.quarto-figure-left {
+    float: left !important;
+    margin: 0 1.5em 1em 0 !important;
+    clear: left;
+    width: auto !important;
+    max-width: 50% !important;
+}
+
+figure.quarto-figure-right,
+.quarto-figure-right {
+    float: right !important;
+    margin: 0 0 1em 1.5em !important;
+    clear: right;
+    width: auto !important;
+    max-width: 50% !important;
+}
+
+/* Target the actual figure element that Quarto generates */
+figure.quarto-figure-left,
+figure.quarto-figure-right {
+    display: block !important;
+    width: fit-content !important;
+}
+
+/* Ensure images within floated figures behave properly */
+.float-left img,
+.float-right img,
+figure.quarto-figure-left img,
+figure.quarto-figure-right img,
+.quarto-figure-left img,
+.quarto-figure-right img {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 !important;
+}
+
+/* Ensure text flows around floated images */
+.quarto-figure-left + p,
+.quarto-figure-right + p {
+    margin-top: 0;
+}
+
+/* Clear floats after sections to prevent layout issues */
+.level2:after,
+.section:after {
+    content: "";
+    display: table;
+    clear: both;
+}

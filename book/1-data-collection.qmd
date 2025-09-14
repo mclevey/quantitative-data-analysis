@@ -1,0 +1,419 @@
+---
+title: Collecting Data
+---
+
+<!-- START CLASS 3 READING HERE -->
+
+> By the end of this chapter you will be able to:
+>
+> - Explain what web scraping is and when it's appropriate
+> - Practice collecting data from a real web page in a careful, reproducible way
+> - Load a page with `requests`
+> - Turn its HTML into a structure Python can navigate with `BeautifulSoup`
+> - Extract the page title, headings, paragraphs, links, and table data
+> - Save your results as tidy, reusable files (CSV or Parquet) for later analysis
+
+## Telling Stories with Data  {.unnumbered}
+
+In the previous chapter you met a simple workflow: **Plan → Simulate → Acquire → Explore/Analyze → Share**. This chapter lives mostly in **Acquire**, but all five steps still matter. Planning gives direction to what we collect. Quick simulation or prototyping helps us spot problems before they cost time. A bit of exploration tells us whether we actually got what we thought we were getting. Saving results in clear, well-organized formats makes later sharing easier, including for your future self.
+
+Before touching any code, let's take a moment to plan and sketch the endpoint we want: a series of data, in table format, containing data from public opinion polls leading up to the 2025 Canadian federal election. We don't really have to *sketch* our end point here because the task already contains a clear representation of our endpoint (@fig-wikipedia-storytelling-end-sketch).
+
+![Our desired end state is to recreate polling data tables by scraping, cleaning, and saving the data reported on the Wikipedia page.](screenshots/wikipedia-storytelling-end-sketch.png){#fig-wikipedia-storytelling-end-sketch}
+
+Our goal, in brief, is to gather the table data with perfect accuracy, to set up a basic DataFrame **schema**, and to save the results as an external file, such as **CSV** or **parquet** for later analysis. In addition to the table data itself, we'll generate a short writeup (a few paragraphs at most) explaining what we did, how we did it, and what we found.
+
+A **schema** is a small blueprint for your table: it names each column, states its data type, and notes any constraints you expect. For example, we might sketch out a schema like the one in @tbl-dataframe-schema.
+
+::: {.column-body-outset}
+| Field                                                              | Type            | Nullable | Purpose / Notes                                                                                        |
+|:-------------------------------------------------------------------|:----------------|:--------|:------------------------------------------------------------------------------------------------------|
+| `pollster`                                                         | string          |       No | Reporting organization; useful for discussing potential “house effects.”                               |
+| `sponsor`                                                          | string          |      Yes | Who commissioned/paid for the poll (possible source of bias).                                          |
+| `first_date_of_polling`                                            | datetime        |      Yes | Start of fieldwork window.                                                                             |
+| `last_date_of_polling`                                             | datetime        |       No | End of fieldwork window; **use this as the poll’s timestamp**.                                         |
+| `sample_size`                                                      | integer         |      Yes | As reported; be mindful that the **base** (e.g., adults, LV, decided/leaning) may differ across firms. |
+| `population`                                                       | string          |      Yes | Target population label (e.g., `adults`, `LV`, `decided/leaning`).                                     |
+| `mode`                                                             | string          |      Yes | Data collection mode (phone, IVR, online, mixed); consider mode effects.                               |
+| `margin_of_error_reported`                                         | float           |      Yes | Reported MOE; treat as descriptive metadata. **Does not apply to non-probability online panels**.[^moe]     |
+| Party share columns (`LPC`, `CPC`, `NDP`, `BQ`, `GP`, `PPC`) | float (percent) |      Yes | Store as **percent** (0–100) for transparency; convert to proportions only when required for methods.  |
+| `notes`                                                            | string          |      Yes | Footnotes, reissues/updates, rolling-average details, special caveats.                                 |
+
+: Sketch of a DataFrame schema for our data collection project. "Field" contains the column names we'll use, "Type" states their expected data types, "Nullable" indicates whether missing values are allowed, and "Purpose / Notes" records any special considerations for each column. {#tbl-dataframe-schema tbl-colwidths="[25,10,10,55]"}
+:::
+
+[^moe]: MOE formulas typically assume simple random sampling; many modern online panels are non-probability samples.
+
+Writing this down first keeps your cleaning steps honest and gives you a target to check against once you extract the data.
+
+## What is Web Scraping?
+
+Sometimes websites provide data directly as a download or through an **API** (*Application Programming Interface*), which is an official, structured way for computers to request specific data from a website. When an API or download exists, prefer it because it is usually more stable than scraping. When no such option is available, we can still collect information by programmatically extracting it from the **HTML** (the markup language that describes web pages). For a simple **static** page (one that does not require a login and does not build its content in the browser with JavaScript) the scraper makes a polite request for the page, parses the returned HTML to find the parts we care about, cleans what it finds, and saves the result in a structured format such as CSV.
+
+::: {.callout-note title="CSV files" appearance="simple" collapse="false"}
+A **CSV** (Comma-Separated Values) file stores a table as plain text. Each line is a row; commas separate the values; the first line usually contains column names. CSVs are popular because they are simple to read, easy to version-control, and compatible with almost every analysis tool. 
+
+In some cases we'll also use **Parquet**, a column-oriented file format that is compact and fast for large datasets. While CSV is great for transparency and portability, Parquet is great for efficiency. Parquet also preserves data types better than CSV, which treats everything as text until you convert it later.
+:::
+
+Responsible scraping blends technical etiquette and research ethics. Prefer official downloads or APIs when they exist because they are more stable and less fragile than scraping. Read the site's `robots.txt` file and terms of use so you understand what the site expects of automated visitors. Be gentle by adding delays and avoiding unnecessary repeated requests; save what you fetch so you don't ask again. Treat anything that could be personally identifying with care, aggregate where possible, and remember it is easier than you might think to re-identify individuals from seemingly harmless details. If you are unsure, ask an AI assistant to summarize the site's guidance and point out the main considerations before you begin. Finally, don't redistribute copyrighted content; instead, share the code you wrote to collect and clean the data so others can reproduce your steps.
+
+### HTML Essentials for Scraping
+
+**HTML** (HyperText Markup Language) describes a page with **tags** and **attributes**. A tag such as `<p>` marks a paragraph. A tag such as `<a>` marks a link and carries an attribute like `href`, which stores the destination URL. Elements can have a **class** (often used for styling and shared by many elements) and an **id** (intended to be unique on the page). HTML is **nested**: elements can contain other elements, forming a **tree** where parents contain children and siblings sit side by side. Scraping is mostly the art of navigating this tree and selecting just the parts you want.
+
+Here is a tiny example showing a heading, a paragraph with a class, an internal link, and a table with a class:
+
+```html
+<h2 id="Overview">Overview</h2>
+<p class="lead">This page summarizes recent polls...</p>
+<a href="/wiki/Methodology">Methodology notes</a>
+<table class="wikitable"> ... </table>
+```
+
+As you work, you will often target headings such as `<h1>`, `<h2>`, and `<h3>`, paragraphs inside `<p>`, and links inside `<a href="...">`. Tabular data lives inside `<table>` elements, which themselves contain rows `<tr>` and cells `<td>` or header cells `<th>`. To see the underlying structure in your browser, right-click a page and choose **Inspect** to open the developer tools. You will see the HTML on one side and the rendered page on the other; when you hover over an element in the HTML, the browser highlights it on the page. That simple inspection skill is half of scraping.
+
+## Collecting Public Opinion Polling Data from Wikipedia Pages
+
+We will scrape a specific revision of the Wikipedia page on [opinion polling for the 45th Canadian federal election](https://en.wikipedia.org/wiki/Opinion_polling_for_the_2025_Canadian_federal_election). Wikipedia pages change over time, so for reproducibility we will use a **permanent revision link** that always returns the same content: [https://en.wikipedia.org/w/index.php?title=Opinion_polling_for_the_2025_Canadian_federal_election&oldid=1306495612](https://en.wikipedia.org/w/index.php?title=Opinion_polling_for_the_2025_Canadian_federal_election&oldid=1306495612). If you ever need to find such a link yourself, click **View history** at the top right of a Wikipedia page, pick a specific edit, and copy its URL.
+
+::: {#fig-wikipedia-table layout-ncol=2}
+![](screenshots/wikipedia-devtools-title.png){.lightbox #fig-wikipedia-devtools-inspect-title}
+
+![](screenshots/wikipedia-tablec-column-ndp.png){.lightbox #fig-wikipedia-table-column-ndp}
+
+Inspecting the source code of the Wikipedia page to find the title in an `<h1>` tag. If you select the text in your browser and right-click to inspect, the developer tools will jump to the corresponding spot in the HTML.
+:::
+
+Open [the page](https://en.wikipedia.org/w/index.php?title=Opinion_polling_for_the_2025_Canadian_federal_election&oldid=1306495612) in your browser and spend a minute exploring with the developer tools. Locate the page title in the `<h1>` tag. Find one of the polling tables; on Wikipedia these usually have `class="wikitable"`. Hover over a few links and notice that some start with `/` while others are full URLs beginning with `https://`. Those starting with `/` are **relative** links that need the site's base address added to them to become usable outside the page; those starting with `https://` are already **absolute** links. Make a note of which tags and classes seem to hold the information you care about, because that will guide your code. We have already thought about this using the storytelling framework from @alexander2023telling.
+
+## Setup
+
+To collect the information we need we will use a few **packages**. A package is a bundle of reusable code that solves common problems. Using packages lets us build on the work others have already done, often saving us from tricky edge cases we might not even know to look for.
+
+Colab comes with many common packages preinstalled. If you ever need something that is not available, such as the course package `clark`, you can install it inside a notebook with a command like 
+
+```python
+!pip install clark-qss
+```
+
+Once a package is available, you bring it into your own code with the `import` statement. The three packages we need are `requests` for loading web pages, `BeautifulSoup` from the `bs4` package for parsing HTML, and `pandas` for working with data in tables.
+
+::: {.callout-note title="Python programming concepts: packages, imports, and names" appearance="simple" collapse="false"}
+When you write `import pandas as pd`, you import the `pandas` package and give it a short nickname so you can write `pd.DataFrame(...)` instead of `pandas.DataFrame(...)`. When you write `from bs4 import BeautifulSoup`, you import a specific object named `BeautifulSoup` from inside the `bs4` package. These patterns are common and will quickly feel natural.
+:::
+
+```{python}
+import requests
+import pandas as pd
+from bs4 import BeautifulSoup
+```
+
+We will also set a **User-Agent** string. Every web request includes a few bits of metadata about the client making the request; the User-Agent identifies what kind of program is asking for the page. Many sites block requests that do not include a sensible User-Agent because they look like anonymous bots. Including a clear string signals that we are behaving responsibly.
+
+```{python}
+ua = "Mozilla/5.0 (compatible; SOCI3040-Student/1.0; +https://www.mun.ca/)"
+```
+
+We will use the permanent revision URL so that we are all working with the same content every time.
+
+```{python}
+url = "https://en.wikipedia.org/w/index.php?title=Opinion_polling_for_the_2025_Canadian_federal_election&oldid=1306495612"
+```
+
+### Loading Static Websites with `requests`
+
+Now we can make a request for the page. The `timeout` protects us from a hanging request if the server is slow or unresponsive.
+
+```{python}
+resp = requests.get(url, headers={"User-Agent": ua}, timeout=30)
+
+resp.status_code
+```
+
+HTTP status codes are short numeric codes that tell us what happened. A `200` means the request succeeded. A `404` means the page was not found, often because of a typo in the URL. A `500` means the server experienced an error. When scraping, always check the status so you do not accidentally parse an error page as if it were real data. If you want a stricter guardrail, you can also call `resp.raise_for_status()` to stop execution on a non-200 result.
+
+A **response object** is Python's container for everything the server sent back. We labeled our container `resp`. It has **attributes** such as `status_code` and `headers`, and it holds the page content as either `text` (decoded as characters) or `content` (raw bytes).
+
+::: {.callout-note title="Under the hood: a closer look at the response" appearance="simple" collapse="false"}
+The response has several parts. The **status line** and **headers** are small key–value pairs with metadata about the response such as the content type, the server software, and caching rules. The **body** contains the page itself (HTML), which you can access as a string with `resp.text` or as bytes with `resp.content`. The object also offers helpful **methods**, such as `raise_for_status()` to throw an error for non-200 responses, and `json()` to parse JSON when a server returns structured data instead of HTML.
+:::
+
+We will grab the HTML as text and preview the first part so we can see that it looks like a normal page.
+
+```{python}
+html = resp.text 
+
+num_characters = 1000
+print(f"{html[:num_characters]}\n...")
+```
+
+::: {.callout-note title="Python programming concepts: f-strings" appearance="simple" collapse="false"}
+An **f-string** is a convenient way to build a string from values. You write a normal string but put an `f` in front, and you place variables or expressions inside curly braces. In `f"{html[:num_characters]}\n..."` the slice `html[:num_characters]` (which is the first 1000 characters of the HTML) is evaluated and then inserted into the string. The `\n` creates a new line.
+:::
+
+It is good practice to save the raw HTML you scraped. Doing so lets you rerun and refine your pipeline later without contacting the website again, which makes your work reproducible and is respectful of other people's servers. It also protects you from future changes to the page: even if the live page looks different next month, you still have the version your analyses were based on.
+
+To save HTML files, we will use Python's built-in `os` module and the `with` statement. The call to `os.makedirs("output", exist_ok=True)` creates an `output` folder if it does not exist; `exist_ok=True` prevents an error if the folder is already there. The pattern `with open(...) as f:` is a **context manager**. It opens the file and guarantees it will be properly closed even if something goes wrong while writing. We also specify **`encoding="utf-8"`** because web pages often include non-ASCII characters; using UTF-8 ensures those characters are written correctly.
+
+```{python}
+import os
+
+os.makedirs("output", exist_ok=True)
+
+with open("output/polling_page.html", "w", encoding="utf-8") as f:
+    f.write(html)
+```
+
+::: {.callout-note title="Optional: what is a text encoding?" appearance="simple" collapse="false"}
+A **text encoding** is a system for turning characters into bytes so they can be stored or transmitted. ASCII is the oldest common encoding and covers basic English letters, numbers, and punctuation. Modern web pages often contain characters beyond ASCII—accented letters, emoji, non-Latin scripts—so ASCII is too limited. **UTF-8** is a widely used encoding that can represent essentially all characters while remaining efficient for plain English text. When you open a file with the wrong encoding, characters can appear garbled (you might see � symbols). Specifying `encoding="utf-8"` when you write and read files helps avoid that problem and keeps your data portable across systems.
+:::
+
+### Parsing HTML with `BeautifulSoup`
+
+We have to turn the raw string of HTML into a structured representation that Python can navigate in a way that lets us easily access the data we want. `BeautifulSoup` does this by building a **tree** of elements, where each element can have a parent and children. This mirrors the way HTML is nested on the page. We will use Python's built-in `"html.parser"`, which is sufficient for most pages and avoids extra installation steps. The `type(soup)` line simply asks Python to tell us what kind of object we created.
+
+```{python}
+soup = BeautifulSoup(html, "html.parser")
+type(soup)
+```
+
+#### Page title, headings, and lead paragraphs
+
+We will begin with a few small extractions to build context. The `find` method returns the first element that matches a tag, while `find_all` returns a list of all matches. Once we have an element, the `get_text()` method pulls out the human-readable text and removes the HTML tags. Passing `strip=True` trims leading and trailing whitespace. Wikipedia often adds small "\[edit]" links inside headings, so we remove the literal text `"[edit]"` from the heading strings to keep things tidy.
+
+```{python}
+title = soup.find("h1").get_text(strip=True)
+print("Title:", title)
+
+headings = []
+for h in soup.find_all(["h2", "h3"]):
+    txt = h.get_text(" ", strip=True)
+    txt = txt.replace("[edit]", "").strip()
+    headings.append({"level": h.name, "text": txt})
+pd.DataFrame(headings).head(8)
+```
+
+For the opening paragraphs, we will use `select`, which accepts **CSS selectors**. CSS selectors are a compact way to point to elements in the tree. For example, the selector `"div#mw-content-text p"` means "paragraph tags that live inside the `div` whose `id` is `mw-content-text`." We collect the first few non-empty paragraphs to create a short summary.
+
+```{python}
+paras = []
+for p in soup.select("div#mw-content-text p"):
+    text = p.get_text(" ", strip=True)
+    if text:
+        paras.append(text)
+    if len(paras) >= 5:
+        break
+
+pd.DataFrame({"paragraph": paras})
+```
+
+#### Extracting and processing links
+
+Links are stored in `<a>` tags with an `href` attribute. Some `href` values are absolute URLs that begin with `https://`; others are **relative** URLs that begin with `/` and need the site's base address added before they make sense outside the page. The `urljoin` function handles both cases: it combines the base address with a relative path and leaves absolute URLs untouched. In the loop below we skip same-page anchors (those beginning with `#`), convert each link to an absolute URL, grab the link text, and mark whether the link points outside Wikipedia.
+
+::: {.callout-note title="Code explanations" appearance="simple" collapse="false"}
+This loop pulls together several building blocks you've already seen. We iterate over every `<a>` tag that has an `href` attribute and clean that attribute with `.strip()` to remove stray spaces. A quick `if` statement skips same-page anchors so we do not record links that simply jump within the current document. We then call `urljoin` with Wikipedia's base address and the link's `href`. If `href` is already a full `https://` URL, `urljoin` returns it unchanged; if it is a relative path that starts with `/`, `urljoin` prepends the base so it becomes a usable absolute URL. We extract the human-readable link text with `get_text`, decide whether the link is external by checking whether it starts with Wikipedia's domain, and finally append a small Python dictionary with the pieces we care about. After the loop, we turn that list of dictionaries into a tidy `DataFrame` so we can inspect and analyze it.
+:::
+
+```{python}
+from urllib.parse import urljoin
+
+links = []
+for a in soup.find_all("a", href=True):
+    href = a["href"].strip()
+    if href.startswith("#"):
+        continue  # skip same-page anchors
+    full = urljoin("https://en.wikipedia.org", href)
+    text = a.get_text(" ", strip=True)
+    external = not full.startswith("https://en.wikipedia.org")
+    links.append({"text": text, "url": full, "external": external})
+
+links_df = pd.DataFrame(links)
+links_df.head(10)
+```
+
+If you are curious about the balance between internal and external links on this page, you can quickly count the `external` column. The main point is to notice how quickly we can move from messy HTML to a tidy table we can work with.
+
+```{python}
+links_df["external"].value_counts(dropna=False)
+```
+
+<!-- START CLASS 4 READING HERE -->
+
+::: {.callout-note title="Pandas DataFrames" appearance="simple" collapse="false"}
+**DataFrame** are table-like data structures. In Python, we work with them in `pandas`. A DataFrame is similar to a spreadsheet, but it lives in memory and comes with powerful tools for selecting, transforming, summarizing, and joining data. Each **column** has a name and a data type, and each **row** holds one record.
+:::
+
+### Extracting Tables
+
+Wikipedia often stores data as HTML tables with the class `wikitable`, which you can confirm by inspecting the page source. There are two broad strategies for getting these tables into Python. One is to use `BeautifulSoup` to find `<table>` elements and then hand each one to `pandas` to parse. The other is to let `pandas` scan the entire HTML and return any tables it finds. We will combine these ideas by finding tables with `BeautifulSoup`, previewing their headers with `pandas`, and then filtering to the ones that look like polling data.
+
+```{python}
+tables = soup.find_all("table")
+print("Found", len(tables), "tables on the page.")
+```
+
+To decide which tables we care about, we first preview their column headers. `pd.read_html` returns a list of DataFrames it can parse from a given chunk of HTML. For a quick look we take the first one.
+
+```{python}
+preview = []
+for table in tables:
+    df_list = pd.read_html(str(table))  
+    if not df_list:
+        continue
+    cols = list(df_list[0].columns)
+    preview.append({"n_frames": len(df_list), "columns": cols})
+
+pd.DataFrame(preview)
+```
+
+Now that we have a sense of what we're dealing with, we will select DataFrames that include a small set of columns we expect to see in the polling tables—specifically, "Polling firm" and "Sample size." We allow for minor variation by checking column names in a case-insensitive way and by keeping only DataFrames that have more than one data row.
+
+::: {.callout-note title="What's `StringIO`?" appearance="simple" collapse="false"}
+`pd.read_html(...)` accepts either a URL, a file-like object, or a string containing HTML. `StringIO` creates an in-memory, file-like wrapper around a string. Wrapping `str(tbl)` in `StringIO` makes it explicit that we're handing `pandas` a self-contained chunk of HTML to parse as if it were a small file. In recent versions of `pandas`, passing `str(tbl)` directly also works; using `StringIO` is a safe, common pattern you'll see in examples because it emphasizes "treat this HTML snippet as a standalone document."
+:::
+
+```{python}
+from io import StringIO
+
+REQUIRED = {"polling firm", "sample size"}
+
+poll_frames = []
+for i, tbl in enumerate(tables):
+    try:
+        dfs = pd.read_html(StringIO(str(tbl)), header=0)
+        for df in dfs:
+            columns_lower = [str(c).strip().lower() for c in df.columns]
+            has_firm = any("polling firm" in col for col in columns_lower)
+            has_sample = any("sample size" in col for col in columns_lower)
+            if has_firm and has_sample and len(df) > 1:  # must have data rows
+                print(f"Found polling table {i+1}:")
+                print(f"  Shape: {df.shape}")
+                print(f"  Columns: {list(df.columns)}")
+                # Sometimes the visible header row is also read as a data row
+                if len(df) > 0 and str(df.iloc[0, 0]).strip() == "Polling firm":
+                    print("  Removing duplicate header row")
+                    df = df.iloc[1:].reset_index(drop=True)
+                poll_frames.append(df)
+                print(f"  Added {len(df)} rows of data\n")
+    except Exception as e:
+        print(f"Error processing table {i+1}: {e}")
+
+print(f"\nTotal polling tables found: {len(poll_frames)}")
+if poll_frames:
+    total_rows = sum(len(df) for df in poll_frames)
+    print(f"Total polling records: {total_rows}")
+```
+
+<!-- 
+::: {.callout-note title="A simpler alternative (optional)" appearance="simple" collapse="false"}
+If you like, you can let `pandas` do more of the work and filter by a keyword. This shorter approach often yields the same result on Wikipedia pages:
+
+```python
+# One-liner to pull only tables that contain "Polling firm" in their header
+poll_frames = pd.read_html(html, match=r"(?i)\bpolling firm\b", header=0)
+
+# Remove a duplicate header row if the parser read it as data
+poll_frames = [
+    df.iloc[1:].reset_index(drop=True) if str(df.iloc[0, 0]).strip() == "Polling firm" else df
+    for df in poll_frames
+]
+```
+
+`match=` tells `read_html` to return only tables whose text matches the pattern (here, "Polling firm", case-insensitive). The small post-step removes a duplicated header row when needed.
+:::
+-->
+
+If you do not find any tables, double-check the page structure with the browser's inspector and revise your approach as needed. If you find too many, tighten the filter (for example, require both "Polling firm" and "Sample size"). The goal is to end up with all and only the tables that contain polling data.
+
+::: {.callout-note title="HTML tables can be quirky" appearance="simple" collapse="false"}
+When `pandas` parses HTML tables, it sometimes treats the first visible header row as part of the data. That's why we previewed columns and shapes before committing to a cleaning strategy, and why the code checks for a duplicate header row and removes it. Catching this early saves time later.
+:::
+
+#### Cleaning the polling tables
+
+Polling tables often include small footnote markers, percent signs in **vote shares**, or extra whitespace. We will standardize column names, gently parse dates, convert vote-share-like columns to numbers, and then stitch the pieces together.
+
+> **Vote shares** are the percentage of respondents (in a specified base, such as "all respondents" or "decided/leaning") who say they would vote for a given party or candidate. They are reported as percentages like "34%" or "27.5%". For analysis we convert them from text to numbers by removing the percent sign and parsing the result as a number. In this book we store them as numeric percentages (0–100) to match the source; when a method requires proportions, we will convert by dividing by 100.
+
+```{python}
+import re 
+
+def clean_columns(cols):
+    out = []
+    for c in cols:
+        c = str(c)
+        c = re.sub(r"\s+", " ", c).strip()
+        out.append(c)
+    return out
+
+def strip_footnotes(x):
+    # remove bracketed footnotes like [a], [b], etc.
+    return re.sub(r"\[[^\]]+\]", "", str(x)).strip()
+
+def to_float_maybe(x):
+    x = strip_footnotes(x)
+    x = x.replace("%", "")
+    try:
+        return float(x)
+    except ValueError:
+        return pd.NA
+
+cleaned = []
+for df in poll_frames:
+    df = df.copy()
+    df.columns = clean_columns(df.columns)
+    # keep only columns we care about now (we can add more later)
+    if "Last date of polling" in df.columns:
+        df["Last date of polling"] = pd.to_datetime(
+            df["Last date of polling"].apply(strip_footnotes), errors="coerce"
+        )
+    if "Sample size" in df.columns:
+        df["Sample size"] = df["Sample size"].apply(strip_footnotes)
+    # try to numeric-coerce all share columns that look like percentages
+    for col in df.columns:
+        if re.search(r"(?i)(share|support|vote|percentage|pct)", col):
+            df[col] = df[col].apply(to_float_maybe)
+    cleaned.append(df)
+
+polls = pd.concat(cleaned, ignore_index=True)
+polls = polls.dropna(how="all").reset_index(drop=True)
+polls.info()
+```
+
+A quick word on reading the output of `.info()`: it shows the number of rows ("entries"), the index range, each column name with a **non-null count**, and each column's **dtype** (data type). 
+
+For example, `datetime64[ns]` indicates a column of dates, `float64` or `int64` are numeric, and `object` usually means text or mixed content. The non-null counts help you see where values are missing; if a column has fewer non-nulls than the total number of rows, some entries are missing or could not be parsed. That is not automatically a problem, it simply tells you where to look next.
+
+Why might you see missing values here? Some "missing" values are genuine: certain tables on the page may leave a column blank for some rows, or a party may not be reported by a particular firm. Other gaps come from **parsing choices** we made. For example, `to_datetime(..., errors="coerce")` turns unparseable date strings into `NaT` (the date/time version of "missing"), and our numeric conversion turns strings like `"27.5%"` into numbers but sets entries with leftover footnote markers or non-numeric text to `NaN`. A third source is **structure**: Wikipedia tables can be nested or vary slightly in column naming, and some rows are separators or notes that look like data until we clean them. The `info()` snapshot is an early, honest look at where those issues might be, so you can decide whether to adjust the parsing or accept the gaps.
+
+As a tiny preview of the next chapter's exploration, we can ask `pandas` for a quick summary of the "Last date of polling" column. When a column contains dates, `pandas` can compute its min and max and count how many values are present. That gives us a fast check that our date parsing worked. We'll use `describe()`.
+
+```{python}
+polls["Last date of polling"].describe()
+```
+
+Finally, we will save our cleaned dataset as a CSV. Think of your scraping and cleaning steps as a small pipeline with stages: capture raw HTML, parse and extract, tidy and standardize, then save an analysis-ready version. Keeping the raw and the clean versions side by side makes your work auditable and saves time if you need to adjust one step later.
+
+```{python}
+polls.to_csv("output/canada_polls_wikipedia.csv", index=False)
+```
+
+Remember to keep both the raw HTML you fetched and the cleaned CSV you produced. Do all cleaning in code cells so that anyone, including your future self, can re-run the notebook from top to bottom and get the same result. An important principle of reproducible research is that you should be able to share your code and data with someone else, and they should be able to reproduce your results exactly. No hidden, manual edits.
+
+<!-- 
+::: {.callout-note appearance="simple" collapse="false"}
+As practice, try the following. First, create a new table that lists the most common external domains linked from the page; you can get the domain by parsing each URL and reading its `netloc`. Next, count how many rows of polling appear for each polling firm and print the firms with the largest counts. Finally, filter the `polls` table to the most recent thirty days based on "Last date of polling" and see which firms appear most often in that window.
+::: 
+-->
+
+::: {.callout-note appearance="simple" collapse="false"}
+If you ever see an error like `ImportError: No module named bs4` in Colab, ask an AI assistant for a short fix. It will usually suggest installing the package with `!pip install beautifulsoup4` and then re-running the import, and it can also explain in plain language what the package does so the fix is not just a mystery incantation.
+:::
+
+## What we'll do next
+
+In the next chapter we will explore the polling data you just collected. We will describe the dataset, handle a few lingering wrinkles in dates and vote shares, and build simple visualizations. We will also practice some basic reproducibility by using "Restart and run all" so that your notebook runs cleanly from the top on any machine and produces the same outputs each time. 
+
+If you want to tinker before then, try narrowing the data to national polls only or write a small function that accepts a Wikipedia revision URL and returns a cleaned polling table, turning today's steps into a reusable tool.

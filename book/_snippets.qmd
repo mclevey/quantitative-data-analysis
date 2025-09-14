@@ -1,0 +1,41 @@
+# Text Snippets
+
+# Common Prompts
+
+> Write an optional callout box with out 2-3 paragraphs about text encodings in beginner-friendly but technically accurate and precise language. be clear and concise.
+
+# Image Gallery
+
+```{markdown}
+::: {#fig-... layout-ncol=2}
+
+![](){.lightbox #fig-...}
+
+![](){.lightbox #fig-...}
+
+Caption here.
+:::
+```
+
+# Callout Boxes
+
+## Ask AI
+
+```{markdown}
+::: {.callout-tip appearance="simple" collapse="false"}
+## Ask an AI
+
+{{< lipsum 1>}}
+:::
+```
+
+
+## Python Programming Concepts
+
+```{markdown}
+::: {.callout-note appearance="simple" collapse="false"}
+## Python Programming Concepts (...)
+
+{{< lipsum 1>}}
+:::
+```
