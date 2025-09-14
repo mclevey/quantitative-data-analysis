@@ -1,3 +1,10 @@
+**/.quarto/
+*.ipynb_checkpoints
+*.ipynb
+**/.DS_Store
+.vscode/
+sc3040/3040-past/
+
 # environment variables
 .env
 **/.env
