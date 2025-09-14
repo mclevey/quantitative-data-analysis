@@ -2,6 +2,7 @@
 *.ipynb_checkpoints
 *.ipynb
 **/.DS_Store
+sc3040/.DS_Store
 .vscode/
 sc3040/3040-past/
 
